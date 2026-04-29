@@ -1,0 +1,46 @@
+[
+  {
+    "id": "365mc",
+    "name": "365mc",
+    "specialties": ["Liposuction", "Body Contouring"],
+    "description": "Korea's largest liposuction specialty clinic chain.",
+    "district": "Gangnam-gu",
+    "hours": "Mon–Fri 10:00–19:00 / Sat 10:00–16:00",
+    "images": [],
+    "pricing": {
+      "liposuction1": { "price": 2888, "isActual": true,  "note": "LAMS General" },
+      "lipo360":      { "price": 6787, "isActual": true,  "note": "LAMS Abdomen & Love handles" },
+      "vaser":        { "price": null, "isActual": false },
+      "tummyTuck":    { "price": null, "isActual": false }
+    }
+  },
+  {
+    "id": "eight-plastic-surgery",
+    "name": "Eight Plastic Surgery",
+    "specialties": ["Liposuction", "Nose", "Breast"],
+    "description": "Takes responsibility for your procedure from pre-op through post-op care.",
+    "district": "Gangnam-gu",
+    "hours": "Mon–Fri 10:00–19:00 / Sat 10:00–16:00",
+    "images": [],
+    "pricing": {
+      "liposuction1": { "price": 3177, "isActual": true,  "note": "Thigh Liposuction" },
+      "chinLipo":     { "price": 3213, "isActual": true,  "note": "Double Chin Lipo + Neck Lift" },
+      "vaser":        { "price": null, "isActual": false },
+      "lipo360":      { "price": null, "isActual": false }
+    }
+  },
+  {
+    "id": "nb-body-center",
+    "name": "NB Body Center",
+    "specialties": ["Liposuction", "Breast"],
+    "description": "Plastic surgeons with 20+ years of experience specializing in body contouring.",
+    "district": "Gangnam-gu",
+    "hours": "Mon–Fri 10:00–19:00 / Sat 10:00–16:00",
+    "images": [],
+    "pricing": {
+      "liposuction1": { "price": null, "isActual": false },
+      "vaser":        { "price": null, "isActual": false },
+      "lipo360":      { "price": null, "isActual": false }
+    }
+  }
+]

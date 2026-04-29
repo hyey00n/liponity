@@ -1,65 +1,92 @@
-import Image from "next/image";
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import TripCostCalculator from '@/components/calculator/TripCostCalculator'
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'Liponity — Korea Liposuction Guide for US Patients',
+  description:
+    'Compare liposuction costs in Korea vs the US, find top clinics, and plan your medical trip. Save 50–70% with Liponity.',
+}
+
+const PROCEDURES = [
+  { label: 'Liposuction',       href: '/procedures/liposuction-korea',       price: '$2,000–$5,000' },
+  { label: 'VASER Liposuction', href: '/procedures/vaser-liposuction-korea', price: '$3,000–$7,000' },
+  { label: '360 Liposuction',   href: '/procedures/360-liposuction-korea',   price: '$6,000–$12,000' },
+  { label: 'Tummy Tuck',        href: '/procedures/tummy-tuck-korea',        price: '$4,000–$8,000' },
+  { label: 'Body Contouring',   href: '/procedures/body-contouring-korea',   price: '$5,000–$15,000' },
+  { label: 'Arm Liposuction',   href: '/procedures/liposuction-korea',       price: '$1,500–$4,000' },
+]
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="max-w-5xl mx-auto px-4">
+
+      {/* Hero */}
+      <section className="py-20 border-b border-gray-200">
+        <h1 className="text-3xl font-semibold text-gray-900 mb-3">
+          Liposuction in Korea
+        </h1>
+        <p className="text-gray-500 max-w-lg mb-8">
+          Save 50–70% vs US prices. Trusted information on clinics, costs,
+          and procedures for US patients.
+        </p>
+        <div className="flex gap-3">
+          <Link
+            href="/procedures/liposuction-korea"
+            className="text-sm border border-gray-900 px-4 py-2 hover:bg-gray-900 hover:text-white transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Explore Procedures
+          </Link>
+          <Link
+            href="/korea-liposuction-cost"
+            className="text-sm text-gray-500 px-4 py-2 border border-gray-200 hover:border-gray-400 transition-colors"
           >
-            Documentation
-          </a>
+            Cost Guide
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Stats */}
+      <section className="py-10 border-b border-gray-200 grid grid-cols-3 gap-6">
+        {[
+          { stat: '50–70%',     label: 'Cheaper than US' },
+          { stat: '10–14 days', label: 'Typical stay' },
+          { stat: '$2K–$12K',   label: 'Korea price range' },
+        ].map((item) => (
+          <div key={item.label}>
+            <p className="text-xl font-semibold text-gray-900">{item.stat}</p>
+            <p className="text-xs text-gray-400 mt-1">{item.label}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* Procedures */}
+      <section className="py-16 border-b border-gray-200">
+        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-6">
+          Procedures
+        </h2>
+        <div className="divide-y divide-gray-100">
+          {PROCEDURES.map((p) => (
+            <Link
+              key={p.label}
+              href={p.href}
+              className="flex justify-between items-center py-4 text-sm hover:text-gray-400 transition-colors group"
+            >
+              <span className="font-medium text-gray-900 group-hover:text-gray-500">{p.label}</span>
+              <span className="text-gray-400">{p.price} in Korea →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Calculator */}
+      <section className="py-16">
+        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-6">
+          Trip Cost Calculator
+        </h2>
+        <TripCostCalculator />
+      </section>
+
     </div>
-  );
+  )
 }
