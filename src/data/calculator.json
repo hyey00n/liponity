@@ -1,0 +1,35 @@
+{
+  "cities": [
+    { "code": "LAX", "label": "Los Angeles",   "flight": 950  },
+    { "code": "JFK", "label": "New York",      "flight": 1200 },
+    { "code": "SFO", "label": "San Francisco", "flight": 980  },
+    { "code": "SEA", "label": "Seattle",       "flight": 880  },
+    { "code": "ORD", "label": "Chicago",       "flight": 1100 },
+    { "code": "DFW", "label": "Dallas",        "flight": 1050 },
+    { "code": "MIA", "label": "Miami",         "flight": 1150 }
+  ],
+  "accommodation": {
+    "budget":  { "label": "Budget (Guesthouse)", "perNight": 55  },
+    "mid":     { "label": "Mid (3-star Hotel)",  "perNight": 95  },
+    "comfort": { "label": "Comfort (4-star)",    "perNight": 160 }
+  },
+  "seasonMultiplier": {
+    "Jan": [0.90, 0.85, 0.85],
+    "Feb": [0.85, 0.85, 0.90],
+    "Mar": [1.00, 1.05, 1.10],
+    "Apr": [1.15, 1.20, 1.15],
+    "May": [1.10, 1.10, 1.05],
+    "Jun": [1.10, 1.20, 1.30],
+    "Jul": [1.35, 1.40, 1.40],
+    "Aug": [1.40, 1.35, 1.25],
+    "Sep": [1.10, 0.95, 0.90],
+    "Oct": [0.95, 0.95, 1.00],
+    "Nov": [0.90, 0.90, 0.92],
+    "Dec": [0.95, 1.10, 1.35]
+  },
+  "fixedCosts": {
+    "foodPerDay": 45,
+    "misc": 340
+  },
+  "months": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+}

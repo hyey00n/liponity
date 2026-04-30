@@ -1,46 +1,1357 @@
 [
   {
-    "id": "365mc",
-    "name": "365mc",
-    "specialties": ["Liposuction", "Body Contouring"],
-    "description": "Korea's largest liposuction specialty clinic chain.",
+    "id": "c001",
+    "clinic_id": "C001",
+    "name": "One Percent Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Two-jaw"
+    ],
+    "address": "128-2 Dosan-daero, Gangnam-gu, Seoul",
     "district": "Gangnam-gu",
-    "hours": "Mon–Fri 10:00–19:00 / Sat 10:00–16:00",
-    "images": [],
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Fri ~21:00 / Sat 10:00~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
     "pricing": {
-      "liposuction1": { "price": 2888, "isActual": true,  "note": "LAMS General" },
-      "lipo360":      { "price": 6787, "isActual": true,  "note": "LAMS Abdomen & Love handles" },
-      "vaser":        { "price": null, "isActual": false },
-      "tummyTuck":    { "price": null, "isActual": false }
-    }
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "twojaw": {
+        "price": 18000,
+        "isActual": false
+      }
+    },
+    "images": []
   },
   {
-    "id": "eight-plastic-surgery",
-    "name": "Eight Plastic Surgery",
-    "specialties": ["Liposuction", "Nose", "Breast"],
-    "description": "Takes responsibility for your procedure from pre-op through post-op care.",
+    "id": "c002",
+    "clinic_id": "C002",
+    "name": "345 Plastic Surgery",
+    "specialties": [
+      "Lifting",
+      "Nose"
+    ],
+    "address": "3F, 116 Bongeunsa-ro, Gangnam-gu, Seoul",
     "district": "Gangnam-gu",
-    "hours": "Mon–Fri 10:00–19:00 / Sat 10:00–16:00",
-    "images": [],
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Fri ~21:00 / Sat 10:00~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
     "pricing": {
-      "liposuction1": { "price": 3177, "isActual": true,  "note": "Thigh Liposuction" },
-      "chinLipo":     { "price": 3213, "isActual": true,  "note": "Double Chin Lipo + Neck Lift" },
-      "vaser":        { "price": null, "isActual": false },
-      "lipo360":      { "price": null, "isActual": false }
-    }
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
   },
   {
-    "id": "nb-body-center",
-    "name": "NB Body Center",
-    "specialties": ["Liposuction", "Breast"],
-    "description": "Plastic surgeons with 20+ years of experience specializing in body contouring.",
-    "district": "Gangnam-gu",
-    "hours": "Mon–Fri 10:00–19:00 / Sat 10:00–16:00",
-    "images": [],
+    "id": "c003",
+    "clinic_id": "C003",
+    "name": "AB Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Nose"
+    ],
+    "address": "17 Seocho-daero 77-gil, Seocho-gu, Seoul",
+    "district": "Seocho-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Fri ~21:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
     "pricing": {
-      "liposuction1": { "price": null, "isActual": false },
-      "vaser":        { "price": null, "isActual": false },
-      "lipo360":      { "price": null, "isActual": false }
-    }
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c004",
+    "clinic_id": "C004",
+    "name": "Aging L Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting"
+    ],
+    "address": "720, Seolleung-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 9:30~18:30 / Sat 9:30~16:30",
+    "hours_detail": {
+      "Mon": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Tue": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Wed": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Thu": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Fri": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Sat": {
+        "open": "9:30",
+        "close": "16:30",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c005",
+    "clinic_id": "C005",
+    "name": "Atop Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "4~5F, K-Square building, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Thu ~21:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c006",
+    "clinic_id": "C006",
+    "name": "All Liting Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Nose"
+    ],
+    "address": "5~6F, 107 Teheran-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Fri ~20:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "20:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c007",
+    "clinic_id": "C007",
+    "name": "Amond Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "834 Nonhyeon-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Fri ~21:00 / Sat 10:00~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c008",
+    "clinic_id": "C008",
+    "name": "AND Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "468 Gangnam-daero, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 9:30~18:30 / Sat 9:30~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Tue": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Wed": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Thu": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Fri": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Sat": {
+        "open": "9:30",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c009",
+    "clinic_id": "C009",
+    "name": "Apgujeong Seoul Plastic Surgery",
+    "specialties": [
+      "Breast",
+      "Eye",
+      "Nose"
+    ],
+    "address": "840 Nonhyeon-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 9:30~19:00 / Sat 9:30~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "9:30",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "9:30",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "9:30",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "9:30",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "9:30",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "9:30",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "breast": {
+        "price": 8000,
+        "isActual": false
+      },
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c010",
+    "clinic_id": "C010",
+    "name": "Arc Plastic Surgery",
+    "specialties": [
+      "Breast",
+      "Eye"
+    ],
+    "address": "368, Sapyeong-daero, Seocho-gu, Seoul",
+    "district": "Seocho-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "breast": {
+        "price": 8000,
+        "isActual": false
+      },
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c011",
+    "clinic_id": "C011",
+    "name": "Banobagi Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Nose"
+    ],
+    "address": "517, Nonhyeon-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 9:30~18:30 / Sat 9:30~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Tue": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Wed": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Thu": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Fri": {
+        "open": "9:30",
+        "close": "18:30",
+        "closed": false
+      },
+      "Sat": {
+        "open": "9:30",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c012",
+    "clinic_id": "C012",
+    "name": "Batang Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "476 Gangnam-daero, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c013",
+    "clinic_id": "C013",
+    "name": "Beautyline Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "590, Gangnam-daero, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Fri ~20:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "20:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c014",
+    "clinic_id": "C014",
+    "name": "BIO Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "107, Dosan-daero, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~18:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": null,
+        "close": null,
+        "closed": true
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c015",
+    "clinic_id": "C015",
+    "name": "Bongbong Plastic Surgery",
+    "specialties": [
+      "Breast",
+      "Lifting"
+    ],
+    "address": "657, Nonhyeon-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": null,
+        "close": null,
+        "closed": true
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "breast": {
+        "price": 8000,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c016",
+    "clinic_id": "C016",
+    "name": "Braun Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "503 Gangnam-daero, Seocho-gu, Seoul",
+    "district": "Seocho-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c017",
+    "clinic_id": "C017",
+    "name": "Byul Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Nose"
+    ],
+    "address": "7~8F, 441 Gangnam-daero, Seocho-gu, Seoul",
+    "district": "Seocho-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Sat 10:00~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c018",
+    "clinic_id": "C018",
+    "name": "Chiu Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "110, Dosan-daero, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Sat 10:00~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c019",
+    "clinic_id": "C019",
+    "name": "Daeyoung Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "338, Apgujeong-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~19:00 / Sat 10:00~17:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "19:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "17:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
+  },
+  {
+    "id": "c020",
+    "clinic_id": "C020",
+    "name": "DM Plastic Surgery",
+    "specialties": [
+      "Eye",
+      "Lifting",
+      "Nose"
+    ],
+    "address": "158, Apgujeong-ro, Gangnam-gu, Seoul",
+    "district": "Gangnam-gu",
+    "cctv": true,
+    "admission": false,
+    "aftercare": true,
+    "female_doctor": false,
+    "anesthesiologist": false,
+    "hours": "Mon-Fri 10:00~18:00 / Sat 10:00~16:00",
+    "hours_detail": {
+      "Mon": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Tue": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Wed": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Thu": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Fri": {
+        "open": "10:00",
+        "close": "18:00",
+        "closed": false
+      },
+      "Sat": {
+        "open": "10:00",
+        "close": "16:00",
+        "closed": false
+      },
+      "Sun": {
+        "open": null,
+        "close": null,
+        "closed": true
+      }
+    },
+    "pricing": {
+      "eye": {
+        "price": 2500,
+        "isActual": false
+      },
+      "lifting": {
+        "price": 4500,
+        "isActual": false
+      },
+      "nose": {
+        "price": 3500,
+        "isActual": false
+      }
+    },
+    "images": []
   }
 ]

@@ -5,11 +5,11 @@ import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Liponity — Korea Liposuction Guide',
+    default: 'Liponity — Korea Plastic Surgery Guide for US Patients',
     template: '%s | Liponity',
   },
   description:
-    'The complete guide to liposuction in Korea. Compare costs, find top clinics, and plan your trip from the US. Save 50–70% vs American prices.',
+    'Compare clinic prices, calculate your total trip cost, and find the right clinic in Korea. Save 50–70% vs US prices.',
   metadataBase: new URL('https://www.liponity.com'),
   openGraph: { siteName: 'Liponity', type: 'website', locale: 'en_US' },
   robots: { index: true, follow: true },
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className="antialiased bg-white text-gray-900">
         <Header />
         <main>{children}</main>
         <Footer />

@@ -1,0 +1,10 @@
+[
+  { "key": "눈",      "label": "Eye",          "koreaAvg": 2126, "usAvg": 3500  },
+  { "key": "코",      "label": "Nose",         "koreaAvg": 5259, "usAvg": 8000  },
+  { "key": "가슴",    "label": "Breast",       "koreaAvg": 8998, "usAvg": 8500  },
+  { "key": "리프팅",  "label": "Lifting",      "koreaAvg": 8828, "usAvg": 12000 },
+  { "key": "안면윤곽","label": "Contouring",   "koreaAvg": 9520, "usAvg": 15000 },
+  { "key": "지방흡입","label": "Liposuction",  "koreaAvg": 3890, "usAvg": 5000  },
+  { "key": "지방이식","label": "Fat Grafting", "koreaAvg": 2093, "usAvg": 4000  },
+  { "key": "복합",    "label": "Package",      "koreaAvg": 9037, "usAvg": 12000 }
+]

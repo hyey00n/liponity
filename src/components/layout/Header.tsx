@@ -3,17 +3,15 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 const NAV = [
-  { label: 'Clinics',     href: '/clinics' },
-  { label: 'Procedures',  href: '/procedures' },
-  { label: 'Cost Guide',  href: '/korea-liposuction-cost' },
-  { label: 'US Guide',    href: '/us-patients-guide' },
+  { label: 'Clinics', href: '/clinics' },
+  { label: 'Guide',   href: '/guide' },
 ]
 
 export default function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="border-b border-gray-200">
+    <header className="border-b border-gray-200 sticky top-0 bg-white z-50">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="text-sm font-semibold tracking-tight">
           Liponity
@@ -24,7 +22,7 @@ export default function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className="text-sm text-gray-500 hover:text-gray-900"
+              className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
             >
               {n.label}
             </Link>
@@ -34,7 +32,6 @@ export default function Header() {
         <button
           className="md:hidden text-sm text-gray-500"
           onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
         >
           {open ? 'Close' : 'Menu'}
         </button>
