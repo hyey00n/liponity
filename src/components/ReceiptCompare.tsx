@@ -1,0 +1,395 @@
+'use client'
+
+import { useState } from 'react'
+
+type PriceItem = {
+  category: string
+  name: string
+  krw: number
+  maxKrw: number
+  usd: number | null
+  vat: string
+  note: string
+  isUserReport: boolean
+  reportCount: number
+  lastReported: string | null
+}
+
+type Clinic = {
+  id: string
+  name: string
+  priceItems: PriceItem[]
+}
+
+function fmt(n: number) { return `$${n.toLocaleString()}` }
+function fmtKrw(n: number) { return `₩${n.toLocaleString()}` }
+
+export function ClinicReceipt({
+  clinic,
+  label,
+  inline = false,
+  onSelectionChange,
+}: {
+  clinic: Clinic
+  label?: 'A' | 'B'
+  inline?: boolean
+  onSelectionChange: (totalUsd: number) => void
+}) {
+  const [activeCategory, setActiveCategory] = useState<string>('all')
+  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set())
+  const [reportingItem, setReportingItem] = useState<string | null>(null)
+  const [priceInput, setPriceInput] = useState('')
+  const [noteInput, setNoteInput] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState<Set<string>>(new Set())
+
+  const [emptyProcedure, setEmptyProcedure] = useState('')
+  const [emptyPrice, setEmptyPrice] = useState('')
+  const [emptyNote, setEmptyNote] = useState('')
+  const [emptySubmitting, setEmptySubmitting] = useState(false)
+  const [emptyDone, setEmptyDone] = useState(false)
+
+  function toggleCheck(item: PriceItem) {
+    setCheckedItems(prev => {
+      const next = new Set(prev)
+      if (next.has(item.name)) next.delete(item.name)
+      else next.add(item.name)
+      const total = clinic.priceItems
+        .filter(i => next.has(i.name))
+        .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
+      onSelectionChange(total)
+      return next
+    })
+  }
+
+  async function handleEmptySubmit() {
+    const krw = Number(emptyPrice.replace(/,/g, ''))
+    if (!emptyProcedure.trim() || !krw) return
+    setEmptySubmitting(true)
+    try {
+      const res = await fetch('/api/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clinic_id: clinic.id,
+          clinic_name: clinic.name,
+          procedure_name: emptyProcedure.trim(),
+          category: '',
+          price_krw: krw,
+          note: emptyNote,
+        }),
+      })
+      if (res.ok) setEmptyDone(true)
+    } finally {
+      setEmptySubmitting(false)
+    }
+  }
+
+  const categories = ['all', ...Array.from(new Set(clinic.priceItems.map(i => i.category))).sort()]
+  const items = activeCategory === 'all'
+    ? clinic.priceItems
+    : clinic.priceItems.filter(i => i.category === activeCategory)
+
+  const totalKrw = items.reduce((s, i) => s + (i.krw || 0), 0)
+  const totalUsd = items.reduce((s, i) => s + (i.usd || 0), 0)
+
+  const selectedCount = checkedItems.size
+  const selectedUsd = clinic.priceItems
+    .filter(i => checkedItems.has(i.name))
+    .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
+
+  function openReport(itemName: string) {
+    setReportingItem(itemName)
+    setPriceInput('')
+    setNoteInput('')
+  }
+
+  function cancelReport() {
+    setReportingItem(null)
+    setPriceInput('')
+    setNoteInput('')
+  }
+
+  async function handleSubmit(item: PriceItem) {
+    const krw = Number(priceInput.replace(/,/g, ''))
+    if (!krw) return
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clinic_id: clinic.id,
+          clinic_name: clinic.name,
+          procedure_name: item.name,
+          category: item.category,
+          price_krw: krw,
+          note: noteInput,
+        }),
+      })
+      if (res.ok) {
+        setSubmitted(prev => new Set(prev).add(item.name))
+        setReportingItem(null)
+      }
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className={inline ? 'flex flex-col h-full' : 'flex-1 border border-gray-200 min-w-0 flex flex-col'}>
+      {/* 헤더 */}
+      {!inline && label && (
+        <div className={`px-4 py-3 border-b border-gray-200 ${label === 'A' ? 'bg-gray-900 text-white' : 'bg-gray-500 text-white'}`}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold border border-white px-1.5 py-0.5">{label}</span>
+            <span className="text-sm font-medium truncate">{clinic.name}</span>
+          </div>
+        </div>
+      )}
+
+      {/* 카테고리 필터 */}
+      <div className="flex gap-1.5 p-3 border-b border-gray-100 overflow-x-auto flex-shrink-0">
+        {categories.map(cat => (
+          <button key={cat} onClick={() => setActiveCategory(cat)}
+            className={`flex-shrink-0 text-xs px-2.5 py-1 border transition-colors ${
+              activeCategory === cat
+                ? 'border-gray-900 bg-gray-900 text-white'
+                : 'border-gray-200 text-gray-500 hover:border-gray-400'
+            }`}>
+            {cat === 'all' ? 'All' : cat}
+          </button>
+        ))}
+      </div>
+
+      {/* 항목 리스트 */}
+      <div className="divide-y divide-gray-50 flex-1 overflow-y-auto">
+        {items.length === 0 && (
+          <div className="px-4 py-6">
+            <p className="text-xs text-gray-400 mb-4">No price data available for this clinic.<br />Know the actual prices? Help others by reporting them.</p>
+            {emptyDone ? (
+              <p className="text-xs text-blue-600 font-medium">Reported ✓ Thank you!</p>
+            ) : (
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  placeholder="Procedure name"
+                  value={emptyProcedure}
+                  onChange={e => setEmptyProcedure(e.target.value)}
+                  className="text-xs border border-gray-200 px-2 py-1.5 w-full focus:outline-none focus:border-gray-400"
+                />
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="Price (₩)"
+                  value={emptyPrice}
+                  onChange={e => setEmptyPrice(e.target.value)}
+                  className="text-xs border border-gray-200 px-2 py-1.5 w-full focus:outline-none focus:border-gray-400"
+                />
+                <input
+                  type="text"
+                  placeholder="Note (optional)"
+                  value={emptyNote}
+                  onChange={e => setEmptyNote(e.target.value)}
+                  className="text-xs border border-gray-200 px-2 py-1.5 w-full focus:outline-none focus:border-gray-400"
+                />
+                <button
+                  onClick={handleEmptySubmit}
+                  disabled={emptySubmitting || !emptyProcedure.trim() || !emptyPrice}
+                  className="w-full text-xs py-1.5 bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
+                >
+                  {emptySubmitting ? '...' : 'Submit'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+        {items.map((item, i) => (
+          <div key={i} className="px-4 py-3 hover:bg-gray-50 group">
+            <div className="flex justify-between items-start gap-2">
+              {/* 체크박스 */}
+              <button
+                onClick={() => toggleCheck(item)}
+                aria-label={`${checkedItems.has(item.name) ? 'Unselect' : 'Select'} ${item.name}`}
+                className={`flex-shrink-0 mt-0.5 w-4 h-4 border transition-colors ${
+                  checkedItems.has(item.name)
+                    ? 'bg-gray-900 border-gray-900'
+                    : 'border-gray-300 hover:border-gray-600'
+                }`}
+              >
+                {checkedItems.has(item.name) && (
+                  <svg viewBox="0 0 12 12" fill="none" className="w-full h-full p-0.5">
+                    <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </button>
+
+              <div className="min-w-0 flex-1">
+                <p className="text-xs text-gray-700 leading-snug">{item.name}</p>
+                <div className="flex items-center gap-2 mt-1 flex-wrap">
+                  {item.vat && <span className="text-xs text-gray-400">{item.vat}</span>}
+                  {item.note && <span className="text-xs text-gray-400 truncate max-w-[120px]">{item.note}</span>}
+                  {item.isUserReport && <span className="text-xs text-green-600 font-medium">User reported</span>}
+                  {item.reportCount > 0 && <span className="text-xs text-gray-400">{item.reportCount} {item.reportCount === 1 ? 'report' : 'reports'}</span>}
+                  {submitted.has(item.name) && <span className="text-xs text-blue-600 font-medium">Reported ✓</span>}
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0">
+                {item.krw > 0 ? (
+                  <>
+                    <p className="text-xs font-medium text-gray-900">
+                      {fmtKrw(item.krw)}
+                      {item.maxKrw > 0 && <span className="text-gray-400"> ~ {fmtKrw(item.maxKrw)}</span>}
+                    </p>
+                    {item.usd && (
+                      <p className="text-xs text-gray-400">
+                        ≈ {fmt(item.usd)}
+                        {item.maxKrw > 0 && ` ~ ${fmt(Math.round(item.maxKrw / 1350))}`}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-xs text-gray-400">Unknown</p>
+                )}
+              </div>
+            </div>
+
+            {/* 제보 인라인 폼 */}
+            {!submitted.has(item.name) && (
+              <div className="mt-2 ml-6">
+                {reportingItem === item.name ? (
+                  <div className="flex gap-1.5 items-center flex-wrap opacity-100">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="Actual price (₩)"
+                      value={priceInput}
+                      onChange={e => setPriceInput(e.target.value)}
+                      className="text-xs border border-gray-300 px-2 py-1 w-28 focus:outline-none focus:border-gray-600"
+                      autoFocus
+                    />
+                    <input
+                      type="text"
+                      placeholder="Note (optional)"
+                      value={noteInput}
+                      onChange={e => setNoteInput(e.target.value)}
+                      className="text-xs border border-gray-300 px-2 py-1 flex-1 min-w-0 focus:outline-none focus:border-gray-600"
+                    />
+                    <button
+                      onClick={() => handleSubmit(item)}
+                      disabled={submitting || !priceInput}
+                      className="text-xs px-2.5 py-1 bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
+                    >
+                      {submitting ? '...' : 'Submit'}
+                    </button>
+                    <button onClick={cancelReport} className="text-xs text-gray-400 hover:text-gray-700">✕</button>
+                  </div>
+                ) : (
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => openReport(item.name)}
+                      className="text-xs text-gray-400 hover:text-gray-700 underline"
+                    >
+                      Different price? Report it →
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* 소계 */}
+      {items.length > 0 && (
+        <div className="border-t border-dashed border-gray-300 px-4 py-3 bg-gray-50 flex-shrink-0">
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-500">
+              {items.length} {items.length === 1 ? 'item' : 'items'} total <span className="text-gray-400">(reference)</span>
+            </span>
+            <div className="text-right">
+              <p className="text-sm font-semibold text-gray-900">{fmtKrw(totalKrw)}</p>
+              <p className="text-xs text-gray-400">{fmt(totalUsd)}</p>
+            </div>
+          </div>
+          {/* 선택 소계 */}
+          {selectedCount > 0 && (
+            <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between items-center">
+              <span className="text-xs text-gray-500">
+                {selectedCount} selected
+              </span>
+              <div className="text-right">
+                <p className="text-xs font-semibold text-gray-900">{fmt(selectedUsd)}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400 px-4 py-2 border-t border-gray-100 flex-shrink-0">
+        Prices are estimates and may differ from actual charges.
+      </p>
+    </div>
+  )
+}
+
+export default function ReceiptCompare({
+  clinicA,
+  clinicB,
+  onClose,
+  onSelectPrices,
+}: {
+  clinicA: Clinic | null
+  clinicB: Clinic | null
+  onClose: () => void
+  onSelectPrices?: (a: number, b: number) => void
+}) {
+  const [selectedA, setSelectedA] = useState(0)
+  const [selectedB, setSelectedB] = useState(0)
+
+  if (!clinicA && !clinicB) return null
+
+  const hasSelection = selectedA > 0 || selectedB > 0
+
+  function handleApply() {
+    onSelectPrices?.(selectedA, selectedB)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-end md:items-center justify-center p-0 md:p-6">
+      <div className="bg-white w-full md:max-w-4xl md:rounded-none max-h-[90vh] flex flex-col">
+
+        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 flex-shrink-0">
+          <p className="text-sm font-semibold text-gray-900">Price Comparison</p>
+          <button onClick={onClose} className="text-xs text-gray-400 hover:text-gray-900 px-2 py-1 border border-gray-200">
+            Close ✕
+          </button>
+        </div>
+
+        <div className="flex gap-0 overflow-y-auto flex-1 min-h-0">
+          {clinicA && <ClinicReceipt clinic={clinicA} label="A" onSelectionChange={setSelectedA} />}
+          {clinicB && <ClinicReceipt clinic={clinicB} label="B" onSelectionChange={setSelectedB} />}
+        </div>
+
+        {/* Apply bar */}
+        {onSelectPrices && (
+          <div className={`flex-shrink-0 border-t border-gray-200 px-4 py-3 flex items-center justify-between transition-colors ${
+            hasSelection ? 'bg-gray-50' : 'bg-white'
+          }`}>
+            <div className="text-xs text-gray-500 flex gap-3">
+              {clinicA && <span>A: {selectedA > 0 ? <strong className="text-gray-900">{`$${selectedA.toLocaleString()}`}</strong> : <span className="text-gray-300">nothing selected</span>}</span>}
+              {clinicB && <span>B: {selectedB > 0 ? <strong className="text-gray-900">{`$${selectedB.toLocaleString()}`}</strong> : <span className="text-gray-300">nothing selected</span>}</span>}
+            </div>
+            <button
+              onClick={handleApply}
+              disabled={!hasSelection}
+              className="text-xs bg-gray-900 text-white px-4 py-2 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              Apply to Trip Calculator →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

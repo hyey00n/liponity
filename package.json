@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@nestjs/config": "^4.0.4",
     "@vis.gl/react-google-maps": "^1.8.3",
     "autoprefixer": "^10.5.0",
     "clsx": "^2.1.1",

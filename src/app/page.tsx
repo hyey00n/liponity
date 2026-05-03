@@ -1,47 +1,19 @@
-'use client'
-import Link from 'next/link'
+import type { Metadata } from 'next'
 import ClinicsPage from '@/app/clinics/page'
 
-export default function HomePage() {
-  return (
-    <>
-      <ClinicsPage />
+export const metadata: Metadata = {
+  title: 'Korea Face Lifting & VASER Lipo Cost Calculator — Compare Clinic Prices',
+  description:
+    'Free calculator for Americans considering face lifting or VASER lipo in Korea. Compare real clinic prices, estimate flights and hotels, and see how much you save vs the US.',
+  alternates: { canonical: 'https://www.liponity.com' },
+  openGraph: {
+    title: 'Korea Face Lifting & VASER Lipo Cost Calculator',
+    description:
+      'Compare real clinic prices in Seoul for face lifting and VASER lipo. Calculate your full trip cost and savings vs US prices.',
+    url: 'https://www.liponity.com',
+  },
+}
 
-      {/* Why Korea */}
-      <section className="max-w-5xl mx-auto px-4 py-16 border-t border-gray-200">
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-8">
-          Why Korea?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {[
-            {
-              title: 'World-class surgeons',
-              desc: 'Korean surgeons perform more procedures per year than most western surgeons do in a decade.',
-            },
-            {
-              title: '50–70% cheaper',
-              desc: 'High competition among 600+ clinics in Seoul keeps prices accessible without compromising quality.',
-            },
-            {
-              title: 'Advanced techniques',
-              desc: 'VASER, Hi-Def, and 360 liposuction — Korean clinics specialize in minimal-scar, precise body contouring.',
-            },
-          ].map((item) => (
-            <div key={item.title}>
-              <p className="text-sm font-medium text-gray-900 mb-2">{item.title}</p>
-              <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="text-center">
-          <Link
-            href="/guide"
-            className="text-sm border border-gray-900 px-8 py-3 hover:bg-gray-900 hover:text-white transition-colors"
-          >
-            Read the US Patient Guide →
-          </Link>
-        </div>
-      </section>
-    </>
-  )
+export default function HomePage() {
+  return <ClinicsPage />
 }

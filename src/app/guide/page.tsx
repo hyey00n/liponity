@@ -1,9 +1,15 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Korea Liposuction Guide for US Patients',
+  title: 'Face Lifting & VASER Lipo in Korea: Complete Guide for US Patients',
   description:
-    'Everything US patients need to know about getting liposuction in Korea. Insurance, safety, recovery, flights, and more.',
+    'Everything Americans need to know before getting face lifting or VASER lipo in Korea. Safety, recovery timeline, cost, flights, and how to avoid fake clinics.',
+  alternates: { canonical: 'https://www.liponity.com/guide' },
+  openGraph: {
+    title: 'Face Lifting & VASER Lipo in Korea: Complete Guide for US Patients',
+    description: 'Recovery timeline, safety tips, cost breakdown, and FAQs for Americans getting face lifting or VASER lipo in Korea.',
+    url: 'https://www.liponity.com/guide',
+  },
 }
 
 const FAQS = [
@@ -59,17 +65,31 @@ const TIMELINE = [
   { day: '3 months', label: 'Final results',         desc: 'Full results visible. Skin fully contracted.' },
 ]
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map(faq => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+}
+
 export default function GuidePage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
+    <div className="max-w-[1100px] mx-auto px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
       {/* 헤더 */}
       <div className="mb-12 border-b border-gray-200 pb-8">
         <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-          Korea Liposuction Guide
+          Face Lifting &amp; VASER Lipo in Korea: US Patient Guide
         </h1>
         <p className="text-sm text-gray-500">
-          Everything US patients need to know before traveling to Korea for liposuction.
+          Everything you need to know before traveling from the US to Korea for face lifting or VASER liposuction.
         </p>
       </div>
 
