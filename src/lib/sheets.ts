@@ -30,7 +30,7 @@ export async function getClinics() {
 export async function getPrices() {
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: 'price!A:H',
+    range: 'price!A:Z',
   });
   return toRows(res.data.values as string[][]);
 }

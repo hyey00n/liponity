@@ -246,15 +246,13 @@ export function ClinicReceipt({
                 {item.krw > 0 ? (
                   <>
                     <p className="text-xs font-medium text-gray-900">
-                      {fmtKrw(item.krw)}
-                      {item.maxKrw > 0 && <span className="text-gray-400"> ~ {fmtKrw(item.maxKrw)}</span>}
+                      {fmt(item.usd ?? Math.round(item.krw / 1350))}
+                      {item.maxKrw > 0 && <span className="text-gray-400"> ~ {fmt(Math.round(item.maxKrw / 1350))}</span>}
                     </p>
-                    {item.usd && (
-                      <p className="text-xs text-gray-400">
-                        ≈ {fmt(item.usd)}
-                        {item.maxKrw > 0 && ` ~ ${fmt(Math.round(item.maxKrw / 1350))}`}
-                      </p>
-                    )}
+                    <p className="text-xs text-gray-400">
+                      {fmtKrw(item.krw)}
+                      {item.maxKrw > 0 && ` ~ ${fmtKrw(item.maxKrw)}`}
+                    </p>
                   </>
                 ) : (
                   <p className="text-xs text-gray-400">Unknown</p>

@@ -1,68 +1,82 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Face Lifting & VASER Lipo in Korea: Complete Guide for US Patients',
+  title: 'How to Use Liponity — Korea Plastic Surgery Cost Guide',
   description:
-    'Everything Americans need to know before getting face lifting or VASER lipo in Korea. Safety, recovery timeline, cost, flights, and how to avoid fake clinics.',
+    'Learn how to use Liponity to compare Korean plastic surgery clinic prices, calculate your total trip cost, and understand what the estimates mean.',
   alternates: { canonical: 'https://www.liponity.com/guide' },
   openGraph: {
-    title: 'Face Lifting & VASER Lipo in Korea: Complete Guide for US Patients',
-    description: 'Recovery timeline, safety tips, cost breakdown, and FAQs for Americans getting face lifting or VASER lipo in Korea.',
+    title: 'How to Use Liponity — Korea Plastic Surgery Cost Guide',
+    description: 'Compare clinic prices, estimate trip costs, and understand Korean plastic surgery pricing — all in one tool.',
     url: 'https://www.liponity.com/guide',
   },
 }
 
-const FAQS = [
+const HOW_TO = [
   {
-    q: 'Is liposuction in Korea safe for Americans?',
-    a: 'Yes. Korea has strict medical regulations and top clinics are accredited by the Ministry of Health and Welfare. Many surgeons trained in the US or Europe and perform significantly more procedures annually than their western counterparts.',
+    step: '1',
+    title: 'Set your trip details',
+    desc: 'Use the bar at the top of the page to select your departure city, travel month, and length of stay. The calculator uses these to estimate your flight and hotel costs.',
   },
   {
-    q: 'Will my US insurance cover liposuction in Korea?',
-    a: 'No. Cosmetic procedures are not covered by US insurance regardless of where they are performed. However, the total cost including flights and hotel is often still less than paying out-of-pocket in the US.',
+    step: '2',
+    title: 'Filter by procedure',
+    desc: 'Use the left sidebar to filter clinics by body part (Eyes, Nose, Breast, etc.), technique (Incision, SMAS, Endoscopic...), or material (Silicone, Motiva, Autologous rib...). Only clinics that offer the selected procedure are shown.',
   },
   {
-    q: 'How long do I need to stay in Korea?',
-    a: 'Most liposuction patients stay 10–14 days. This includes a pre-op consultation (1–2 days), surgery, and initial recovery. Some combined procedures may require up to 3 weeks.',
+    step: '3',
+    title: 'Select up to 2 clinics to compare',
+    desc: 'Click any clinic card to assign it to slot A or B. The Trip Summary panel on the right updates automatically with a side-by-side cost breakdown including surgery, flight, hotel, and daily expenses.',
   },
   {
-    q: 'When can I fly home after liposuction?',
-    a: 'Most surgeons recommend waiting at least 7–10 days before flying. For larger procedures like 360 liposuction, 14 days is safer. Always confirm with your surgeon before booking return flights.',
+    step: '4',
+    title: 'Open Price Comparison for itemized pricing',
+    desc: 'Click "Price Comparison" in the Trip Summary to see the full procedure price list for each clinic. Check individual procedures to build a custom quote and apply it to the trip calculator.',
   },
   {
-    q: 'What if I have complications after returning to the US?',
-    a: 'Most top clinics provide online follow-up consultations after you return home. For serious complications, visit your local emergency room and contact your Korean clinic immediately. Keep all surgical records and documentation.',
-  },
-  {
-    q: 'Are Korean surgeons qualified?',
-    a: 'Yes. Korean plastic surgeons must complete medical school, residency, and pass board certification exams regulated by the Ministry of Health and Welfare. Many have additional training in the US, Japan, or Europe.',
-  },
-  {
-    q: 'Can I pay in USD?',
-    a: 'Most clinics accept international credit cards (Visa, Mastercard) and wire transfers in USD. Some offer USD-quoted pricing. Cash in KRW often gets a slight discount.',
-  },
-  {
-    q: 'Is it safe to go alone?',
-    a: 'Yes, many international patients travel alone. Top clinics have English-speaking coordinators who assist with consultations, surgery day logistics, and recovery. We recommend staying near the clinic for the first few days.',
-  },
-  {
-    q: 'How do I avoid ghost doctors or fake clinics?',
-    a: 'Always verify the clinic is registered with the Korean Ministry of Health and Welfare. Ask to confirm your specific surgeon before surgery. Avoid unusually low prices. Request to see before/after photos from the same surgeon.',
-  },
-  {
-    q: 'What should I bring to Korea for recovery?',
-    a: 'Comfortable loose clothing, compression garments (some clinics provide these), any regular medications, travel insurance documents, and your surgical records. A travel pillow helps on the flight home.',
+    step: '5',
+    title: 'Override with your actual flight cost',
+    desc: 'Click the "From" button in the header to enter a real flight price you found on Google Flights. This replaces the estimate and gives you a more accurate total trip cost.',
   },
 ]
 
-const TIMELINE = [
-  { day: 'D-Day',    label: 'Surgery',              desc: 'Procedure performed under anesthesia. Stay at clinic or nearby hotel.' },
-  { day: 'D+1',      label: 'First check-up',       desc: 'Clinic visit for drainage and wound check. Rest is essential.' },
-  { day: 'D+3',      label: 'Swelling peaks',       desc: 'Maximum swelling and bruising. Normal — keep compression garment on.' },
-  { day: 'D+7',      label: 'Suture removal',       desc: 'Most stitches removed. Significant improvement in swelling.' },
-  { day: 'D+10',     label: 'Possible to fly',      desc: 'Most patients can fly home. Confirm with your surgeon.' },
-  { day: '1 month',  label: '70% results visible',  desc: 'Most swelling gone. Final results continue improving.' },
-  { day: '3 months', label: 'Final results',         desc: 'Full results visible. Skin fully contracted.' },
+const FAQS = [
+  {
+    q: 'Where does the price data come from?',
+    a: 'Prices are sourced from clinic websites, public price disclosures required by Korean law, and user-submitted reports. Actual quotes from the clinic may differ based on your specific case, surgeon, and any package deals.',
+  },
+  {
+    q: 'What does "estimated" vs confirmed price mean?',
+    a: 'Confirmed prices (shown in darker text) come directly from a clinic\'s published price list or a verified user report. Estimated prices (shown in lighter text) are category averages from public data. Always get a formal quote from the clinic.',
+  },
+  {
+    q: 'How is the USD price calculated?',
+    a: 'Liponity converts KRW to USD at a fixed rate of ₩1,350 = $1. Actual exchange rates fluctuate — treat this as a rough guide, not a guaranteed price.',
+  },
+  {
+    q: 'Can I contact clinics through Liponity?',
+    a: 'No. Liponity is a research tool only — no clinic partnerships, no bookings, no consultations. Contact each clinic directly through their official website.',
+  },
+  {
+    q: 'What procedures does Liponity cover?',
+    a: 'Eyes, Nose, Breast, Face Lifting, Facial Contouring, Liposuction, Fat Graft, and combination packages. Coverage varies by clinic — some have full price lists, others have partial data.',
+  },
+  {
+    q: 'Why does the same procedure have a wide price range?',
+    a: 'Price ranges reflect different techniques, materials, and surgeon experience. Non-incision double eyelid surgery is significantly cheaper than incision-based, for example. Use the technique filter in the sidebar to narrow the range.',
+  },
+  {
+    q: 'Are Korean clinic prices negotiable?',
+    a: 'Sometimes — especially for combination procedures. Clinics with published price lists typically don\'t negotiate on individual items. Ask during your consultation.',
+  },
+  {
+    q: 'Do clinics charge a consultation fee?',
+    a: 'Most Korean clinics offer free consultations, including video calls for international patients. Some charge a fee that\'s applied toward the surgery cost if you proceed. Confirm with each clinic.',
+  },
+  {
+    q: 'How do I report a price or suggest a clinic?',
+    a: 'Hover over any procedure in the Price Comparison modal to see "Different price? Report it." To suggest a clinic, use the form at the bottom of the main page.',
+  },
 ]
 
 const faqJsonLd = {
@@ -77,36 +91,38 @@ const faqJsonLd = {
 
 export default function GuidePage() {
   return (
-    <div className="max-w-[1100px] mx-auto px-4 py-12">
+    <div className="max-w-[800px] mx-auto px-4 py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* 헤더 */}
+      {/* Header */}
       <div className="mb-12 border-b border-gray-200 pb-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-          Face Lifting &amp; VASER Lipo in Korea: US Patient Guide
+        <h1 className="text-2xl font-semibold text-gray-900 mb-3">
+          How to Use Liponity
         </h1>
-        <p className="text-sm text-gray-500">
-          Everything you need to know before traveling from the US to Korea for face lifting or VASER liposuction.
+        <p className="text-sm text-gray-500 leading-relaxed max-w-xl">
+          Liponity is a free research tool for Americans comparing the cost of plastic surgery in Korea.
+          It is not a booking platform and does not provide medical advice — it helps you understand
+          what procedures cost and estimate your total trip budget before reaching out to clinics directly.
         </p>
       </div>
 
-      {/* 회복 타임라인 */}
+      {/* How to use */}
       <section className="mb-16">
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-6">
-          Recovery Timeline
+        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-6">
+          How to use
         </h2>
-        <div className="space-y-4">
-          {TIMELINE.map((t) => (
-            <div key={t.day} className="flex gap-6 border-b border-gray-100 pb-4">
-              <div className="w-20 shrink-0">
-                <span className="text-xs font-mono font-semibold text-gray-900">{t.day}</span>
+        <div className="space-y-0">
+          {HOW_TO.map((item) => (
+            <div key={item.step} className="flex gap-5 border-b border-gray-100 py-5">
+              <div className="w-6 h-6 bg-gray-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                {item.step}
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900 mb-1">{t.label}</p>
-                <p className="text-sm text-gray-500">{t.desc}</p>
+                <p className="text-sm font-medium text-gray-900 mb-1">{item.title}</p>
+                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -115,12 +131,12 @@ export default function GuidePage() {
 
       {/* FAQ */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-6">
+        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-6">
           Frequently Asked Questions
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-0">
           {FAQS.map((faq) => (
-            <div key={faq.q} className="border-b border-gray-100 pb-6">
+            <div key={faq.q} className="border-b border-gray-100 py-5">
               <p className="text-sm font-medium text-gray-900 mb-2">{faq.q}</p>
               <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
             </div>
@@ -128,6 +144,9 @@ export default function GuidePage() {
         </div>
       </section>
 
+      <p className="text-xs text-gray-400 mt-12 pt-6 border-t border-gray-100">
+        Liponity provides estimates only. All prices should be confirmed directly with the clinic. This is not medical advice.
+      </p>
     </div>
   )
 }

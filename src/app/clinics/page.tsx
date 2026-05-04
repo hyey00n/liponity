@@ -39,8 +39,8 @@ const BODY_PARTS = [
   { label: 'Package',        value: 'Package' },
 ]
 
-const METHOD_TAGS   = ['절개', '비절개', 'SMAS', '내시경', '매몰', '눈매교정', '안검하수']
-const MATERIAL_TAGS = ['자가늑연골', '기증늑연골', '모티바', '멘토', '실리콘', '지방이식', '벨라젤']
+const METHOD_TAGS   = ['Incision', 'Non-incision', 'SMAS', 'Endoscopic', 'Buried suture', 'Epicanthoplasty', 'Ptosis correction']
+const MATERIAL_TAGS = ['Autologous rib', 'Donor rib', 'Motiva', 'Mentor', 'Silicone', 'Fat graft', 'Bellygel']
 
 const CATEGORY_TO_PROC: Record<string, string> = {
   Eyes: '눈', Nose: '코', Breast: '가슴', Lifting: '리프팅',
@@ -183,9 +183,9 @@ export default function ClinicsPage() {
       const matchCat      = activeCategories.size === 0 || c.specialties.some(s => activeCategories.has(s))
       const matchSearch   = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase())
       const matchMethod   = activeMethodTags.size === 0 ||
-        c.priceItems.some(item => [...activeMethodTags].some(t => item.name.includes(t)))
+        c.priceItems.some(item => [...activeMethodTags].some(t => item.name.toLowerCase().includes(t.toLowerCase())))
       const matchMaterial = activeMaterialTags.size === 0 ||
-        c.priceItems.some(item => [...activeMaterialTags].some(t => item.name.includes(t)))
+        c.priceItems.some(item => [...activeMaterialTags].some(t => item.name.toLowerCase().includes(t.toLowerCase())))
       const matchPrice    = !priceOnly || (c.priceItems?.length ?? 0) > 0
       return matchCat && matchSearch && matchMethod && matchMaterial && matchPrice
     })
@@ -447,7 +447,7 @@ export default function ClinicsPage() {
           </div>
 
           {/* 부위 */}
-          <Section id="body" title="부위 (Body Part)">
+          <Section id="body" title="Body Part">
             <div className="flex flex-wrap gap-1.5">
               {BODY_PARTS.map(cat => (
                 <TagChip
@@ -461,7 +461,7 @@ export default function ClinicsPage() {
           </Section>
 
           {/* 방법 */}
-          <Section id="method" title="방법 (Technique)">
+          <Section id="method" title="Technique">
             <div className="flex flex-wrap gap-1.5">
               {METHOD_TAGS.map(tag => (
                 <TagChip
@@ -475,7 +475,7 @@ export default function ClinicsPage() {
           </Section>
 
           {/* 재료 */}
-          <Section id="material" title="재료 (Material)">
+          <Section id="material" title="Material">
             <div className="flex flex-wrap gap-1.5">
               {MATERIAL_TAGS.map(tag => (
                 <TagChip
@@ -489,7 +489,7 @@ export default function ClinicsPage() {
           </Section>
 
           {/* 가격 */}
-          <Section id="price" title="가격 (Price)">
+          <Section id="price" title="Price">
             <label className="flex items-center gap-2 cursor-pointer">
               <div
                 onClick={() => setPriceOnly(p => !p)}
@@ -497,7 +497,7 @@ export default function ClinicsPage() {
               >
                 <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${priceOnly ? 'translate-x-4' : 'translate-x-0.5'}`} />
               </div>
-              <span className="text-xs text-gray-700">가격 있는 곳만</span>
+              <span className="text-xs text-gray-700">With pricing only</span>
             </label>
           </Section>
         </aside>
@@ -587,12 +587,18 @@ export default function ClinicsPage() {
                         </div>
                         <div className="flex-shrink-0 text-right">
                           {priceRange ? (
-                            <p className="text-xs text-gray-700 font-medium">
-                              ₩{Math.round(priceRange.min / 10000)}만
-                              {priceRange.max > priceRange.min && (
-                                <span className="text-gray-400"> ~ ₩{Math.round(priceRange.max / 10000)}만</span>
-                              )}
-                            </p>
+                            <>
+                              <p className="text-xs text-gray-700 font-medium">
+                                ${Math.round(priceRange.min / 1350).toLocaleString()}
+                                {priceRange.max > priceRange.min && (
+                                  <span className="text-gray-400"> ~ ${Math.round(priceRange.max / 1350).toLocaleString()}</span>
+                                )}
+                              </p>
+                              <p className="text-xs text-gray-400">
+                                ₩{Math.round(priceRange.min / 10000)}만
+                                {priceRange.max > priceRange.min && ` ~ ₩${Math.round(priceRange.max / 10000)}만`}
+                              </p>
+                            </>
                           ) : (
                             <span className="text-xs text-gray-300">—</span>
                           )}
