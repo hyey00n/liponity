@@ -162,7 +162,8 @@ export async function GET() {
     });
 
     return Response.json(clinics);
-  } catch {
+  } catch (e) {
+    console.error('[clinics API]', e)
     return Response.json({ error: 'Server error' }, { status: 500 });
   }
 }

@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { usePathname } from 'next/navigation'
 import { useTravelContext } from '@/context/travel'
 import CALC_DATA from '@/data/calculator.json'
 
@@ -16,8 +15,6 @@ export default function Header() {
   const [open, setOpen]               = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const headerRef = useRef<HTMLDivElement>(null)
-  const pathname  = usePathname()
-  const isClinic  = pathname === '/clinics'
   const travel    = useTravelContext()
 
   useEffect(() => {
@@ -47,9 +44,8 @@ export default function Header() {
           Liponity
         </Link>
 
-        {/* Center: compact travel bar (clinics only) */}
-        {isClinic && (
-          <div className="flex-1 flex justify-center relative">
+        {/* Center: compact travel bar */}
+        <div className="flex-1 flex justify-center relative">
             <div className="flex border border-gray-200 divide-x divide-gray-200 text-xs">
 
               {/* Flying from */}
@@ -173,7 +169,6 @@ export default function Header() {
               </div>
             )}
           </div>
-        )}
 
         {/* Nav */}
         <nav className="hidden md:flex items-center gap-6 flex-shrink-0">

@@ -27,7 +27,8 @@ export async function POST(req: Request) {
 
     await appendReport({ clinic_id, clinic_name, procedure_name, category, price_krw, note })
     return Response.json({ ok: true })
-  } catch {
+  } catch (e) {
+    console.error('[report API]', e)
     return Response.json({ error: 'Server error' }, { status: 500 })
   }
 }

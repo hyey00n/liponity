@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 type PriceItem = {
   category: string
@@ -85,10 +85,18 @@ export function ClinicReceipt({
     }
   }
 
-  const categories = ['all', ...Array.from(new Set(clinic.priceItems.map(i => i.category))).sort()]
-  const items = activeCategory === 'all'
-    ? clinic.priceItems
-    : clinic.priceItems.filter(i => i.category === activeCategory)
+  const categories = useMemo(
+    () => ['all', ...Array.from(new Set(clinic.priceItems.map(i => i.category))).sort()],
+    [clinic.priceItems]
+  )
+  const baseItems = useMemo(
+    () => activeCategory === 'all' ? clinic.priceItems : clinic.priceItems.filter(i => i.category === activeCategory),
+    [activeCategory, clinic.priceItems]
+  )
+  const items = useMemo(
+    () => [...baseItems].sort((a, b) => (checkedItems.has(a.name) ? 0 : 1) - (checkedItems.has(b.name) ? 0 : 1)),
+    [baseItems, checkedItems]
+  )
 
   const totalKrw = items.reduce((s, i) => s + (i.krw || 0), 0)
   const totalUsd = items.reduce((s, i) => s + (i.usd || 0), 0)

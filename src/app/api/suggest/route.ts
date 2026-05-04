@@ -17,7 +17,8 @@ export async function POST(req: Request) {
 
     await appendSuggestion(clinic_name)
     return Response.json({ ok: true })
-  } catch {
+  } catch (e) {
+    console.error('[suggest API]', e)
     return Response.json({ error: 'Server error' }, { status: 500 })
   }
 }

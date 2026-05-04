@@ -77,10 +77,13 @@ export default function ClinicsPage() {
   const [error,   setError]     = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('/api/clinics')
-      .then(r => r.json())
-      .then(d => { if (Array.isArray(d)) setClinics(d); else setError(d.error || 'Error'); setLoading(false) })
-      .catch(() => { setError('Failed to load'); setLoading(false) })
+    const ctrl = new AbortController()
+    fetch('/api/clinics', { signal: ctrl.signal })
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json() })
+      .then(d => { if (Array.isArray(d)) setClinics(d); else setError(d.error || 'Error') })
+      .catch(e => { if (e.name !== 'AbortError') setError('Failed to load') })
+      .finally(() => setLoading(false))
+    return () => ctrl.abort()
   }, [])
 
   // ── Travel state (shared via context with Header) ─────────
