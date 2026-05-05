@@ -71,12 +71,13 @@ function getPrice(clinic: Clinic, procedureKey: string) {
 
 function fmt(n: number) { return `$${n.toLocaleString()}` }
 
-export default function ClinicsPage() {
-  const [clinics, setClinics]   = useState<Clinic[]>([])
-  const [loading, setLoading]   = useState(true)
+export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: Clinic[] }) {
+  const [clinics, setClinics]   = useState<Clinic[]>(initialClinics)
+  const [loading, setLoading]   = useState(initialClinics.length === 0)
   const [error,   setError]     = useState<string | null>(null)
 
   useEffect(() => {
+    if (initialClinics.length > 0) return
     const ctrl = new AbortController()
     fetch('/api/clinics', { signal: ctrl.signal })
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json() })
@@ -84,7 +85,7 @@ export default function ClinicsPage() {
       .catch(e => { if (e.name !== 'AbortError') setError('Failed to load') })
       .finally(() => setLoading(false))
     return () => ctrl.abort()
-  }, [])
+  }, [initialClinics.length])
 
   // ── Travel state (shared via context with Header) ─────────
   const { city, month, nights, accommodation, flightOverride } = useTravelContext()
@@ -130,11 +131,11 @@ export default function ClinicsPage() {
     if (!suggestName.trim()) return
     setSuggestSubmitting(true)
     try {
-      await fetch('/api/suggest', {
+      const res = await fetch('/api/suggest', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ clinic_name: suggestName.trim() }),
       })
-      setSuggestDone(true); setSuggestName('')
+      if (res.ok) { setSuggestDone(true); setSuggestName('') }
     } finally { setSuggestSubmitting(false) }
   }
 
@@ -216,9 +217,9 @@ export default function ClinicsPage() {
     setCompareA(clinic); setFlashSlot('A')
     setTimeout(() => setFlashSlot(null), 1500)
   }
-  function handleSelectPrices(a: number, b: number) {
-    if (a > 0) setSurgeryOverrideA(a)
-    if (b > 0) setSurgeryOverrideB(b)
+  function handleSelectPrices(a: number, b: number, checkedA: Set<string>, checkedB: Set<string>) {
+    if (a > 0) { setSurgeryOverrideA(a); setCustomSelA(checkedA) }
+    if (b > 0) { setSurgeryOverrideB(b); setCustomSelB(checkedB) }
     setShowReceipt(false)
   }
 
@@ -543,7 +544,7 @@ export default function ClinicsPage() {
               {priceOnly && (
                 <button onClick={() => setPriceOnly(false)}
                   className="text-xs border border-gray-400 text-gray-600 px-2.5 py-1 flex items-center gap-1.5 hover:border-gray-700">
-                  가격 있는 곳만 <span className="opacity-60">×</span>
+                  With pricing only <span className="opacity-60">×</span>
                 </button>
               )}
             </div>
@@ -595,8 +596,8 @@ export default function ClinicsPage() {
                                 )}
                               </p>
                               <p className="text-xs text-gray-400">
-                                ₩{Math.round(priceRange.min / 10000)}만
-                                {priceRange.max > priceRange.min && ` ~ ₩${Math.round(priceRange.max / 10000)}만`}
+                                ₩{priceRange.min.toLocaleString()}
+                                {priceRange.max > priceRange.min && ` ~ ₩${priceRange.max.toLocaleString()}`}
                               </p>
                             </>
                           ) : (
@@ -687,7 +688,8 @@ export default function ClinicsPage() {
 
       {showReceipt && (
         <ReceiptCompare clinicA={compareA} clinicB={compareB}
-          onClose={() => setShowReceipt(false)} onSelectPrices={handleSelectPrices} />
+          onClose={() => setShowReceipt(false)} onSelectPrices={handleSelectPrices}
+          initialCheckedA={customSelA} initialCheckedB={customSelB} />
       )}
 
       {showCalcDrawer && (

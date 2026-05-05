@@ -6,39 +6,41 @@ import { TravelProvider } from '@/context/travel'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Liponity — Korea Face Lifting & VASER Lipo Cost Calculator',
-    template: '%s | Liponity',
+    default: 'Korea Plastic Surgery Trip Cost Calculator | Plainkost',
+    template: '%s | Plainkost',
   },
   description:
-    'Calculate the real cost of face lifting and VASER lipo in Korea. Compare clinics, see actual prices, and estimate your total trip cost vs the US. Built for American patients.',
-  metadataBase: new URL('https://www.liponity.com'),
+    'Free trip cost calculator for Americans considering plastic surgery in Korea. Compare Seoul clinic prices for rhinoplasty, liposuction, face lifting, and more — surgery, flights, hotel, and daily costs in one place.',
+  metadataBase: new URL('https://www.plainkost.com'),
   keywords: [
-    'face lifting Korea',
-    'VASER lipo Korea',
-    'Korea plastic surgery cost calculator',
-    'face lift Seoul price',
-    'vaser liposuction Korea cost',
-    'Korea plastic surgery for Americans',
-    'face lifting Korea vs USA',
-    'how much does face lifting cost in Korea',
-    'vaser lipo Korea price',
-    'Korea cosmetic surgery calculator',
+    'korea plastic surgery trip cost calculator',
+    'seoul plastic surgery budget calculator',
+    'korea vs us plastic surgery price comparison',
+    'how much does rhinoplasty trip to korea cost',
+    'korea liposuction price comparison',
+    'rhinoplasty korea total cost',
+    'face lifting korea price',
+    'vaser lipo korea cost calculator',
+    'korea plastic surgery for americans',
+    'seoul clinic prices comparison',
+    'korea cosmetic surgery cost vs usa',
+    'plastic surgery trip budget korea',
   ],
   openGraph: {
-    siteName: 'Liponity',
+    siteName: 'Plainkost',
     type: 'website',
     locale: 'en_US',
-    title: 'Korea Face Lifting & VASER Lipo Cost Calculator',
+    title: 'Korea Plastic Surgery Trip Cost Calculator',
     description:
-      'See real clinic prices and calculate your total trip cost for face lifting or VASER lipo in Korea. Save 50–70% vs US prices.',
+      'Calculate the total cost of plastic surgery in Korea — surgery, flights, hotel, and daily expenses. Compare Seoul clinic prices and see real savings vs US prices.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Korea Face Lifting & VASER Lipo Cost Calculator',
-    description: 'Compare Korea clinic prices for face lifting and VASER lipo. Calculate total trip cost vs the US.',
+    title: 'Korea Plastic Surgery Trip Cost Calculator',
+    description: 'Compare Seoul clinic prices for rhinoplasty, liposuction, and face lifting. Calculate your full trip budget vs US costs.',
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: 'https://www.liponity.com' },
+  alternates: { canonical: 'https://www.plainkost.com' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

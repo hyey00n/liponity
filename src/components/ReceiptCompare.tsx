@@ -28,15 +28,17 @@ export function ClinicReceipt({
   clinic,
   label,
   inline = false,
+  initialChecked,
   onSelectionChange,
 }: {
   clinic: Clinic
   label?: 'A' | 'B'
   inline?: boolean
-  onSelectionChange: (totalUsd: number) => void
+  initialChecked?: Set<string>
+  onSelectionChange: (totalUsd: number, checkedNames: Set<string>) => void
 }) {
   const [activeCategory, setActiveCategory] = useState<string>('all')
-  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set())
+  const [checkedItems, setCheckedItems] = useState<Set<string>>(initialChecked ?? new Set())
   const [reportingItem, setReportingItem] = useState<string | null>(null)
   const [priceInput, setPriceInput] = useState('')
   const [noteInput, setNoteInput] = useState('')
@@ -57,7 +59,7 @@ export function ClinicReceipt({
       const total = clinic.priceItems
         .filter(i => next.has(i.name))
         .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
-      onSelectionChange(total)
+      onSelectionChange(total, next)
       return next
     })
   }
@@ -93,18 +95,7 @@ export function ClinicReceipt({
     () => activeCategory === 'all' ? clinic.priceItems : clinic.priceItems.filter(i => i.category === activeCategory),
     [activeCategory, clinic.priceItems]
   )
-  const items = useMemo(
-    () => [...baseItems].sort((a, b) => (checkedItems.has(a.name) ? 0 : 1) - (checkedItems.has(b.name) ? 0 : 1)),
-    [baseItems, checkedItems]
-  )
-
-  const totalKrw = items.reduce((s, i) => s + (i.krw || 0), 0)
-  const totalUsd = items.reduce((s, i) => s + (i.usd || 0), 0)
-
-  const selectedCount = checkedItems.size
-  const selectedUsd = clinic.priceItems
-    .filter(i => checkedItems.has(i.name))
-    .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
+  const items = baseItems
 
   function openReport(itemName: string) {
     setReportingItem(itemName)
@@ -306,32 +297,6 @@ export function ClinicReceipt({
         ))}
       </div>
 
-      {/* 소계 */}
-      {items.length > 0 && (
-        <div className="border-t border-dashed border-gray-300 px-4 py-3 bg-gray-50 flex-shrink-0">
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-500">
-              {items.length} {items.length === 1 ? 'item' : 'items'} total <span className="text-gray-400">(reference)</span>
-            </span>
-            <div className="text-right">
-              <p className="text-sm font-semibold text-gray-900">{fmtKrw(totalKrw)}</p>
-              <p className="text-xs text-gray-400">{fmt(totalUsd)}</p>
-            </div>
-          </div>
-          {/* 선택 소계 */}
-          {selectedCount > 0 && (
-            <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between items-center">
-              <span className="text-xs text-gray-500">
-                {selectedCount} selected
-              </span>
-              <div className="text-right">
-                <p className="text-xs font-semibold text-gray-900">{fmt(selectedUsd)}</p>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
       <p className="text-xs text-gray-400 px-4 py-2 border-t border-gray-100 flex-shrink-0">
         Prices are estimates and may differ from actual charges.
       </p>
@@ -344,21 +309,34 @@ export default function ReceiptCompare({
   clinicB,
   onClose,
   onSelectPrices,
+  initialCheckedA,
+  initialCheckedB,
 }: {
   clinicA: Clinic | null
   clinicB: Clinic | null
   onClose: () => void
-  onSelectPrices?: (a: number, b: number) => void
+  onSelectPrices?: (a: number, b: number, checkedA: Set<string>, checkedB: Set<string>) => void
+  initialCheckedA?: Set<string>
+  initialCheckedB?: Set<string>
 }) {
-  const [selectedA, setSelectedA] = useState(0)
-  const [selectedB, setSelectedB] = useState(0)
+  const computeTotal = (clinic: Clinic | null, checked: Set<string>) => {
+    if (!clinic || !checked.size) return 0
+    return clinic.priceItems
+      .filter(i => checked.has(i.name))
+      .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
+  }
+
+  const [selectedA, setSelectedA] = useState(() => computeTotal(clinicA, initialCheckedA ?? new Set()))
+  const [selectedB, setSelectedB] = useState(() => computeTotal(clinicB, initialCheckedB ?? new Set()))
+  const [checkedA, setCheckedA] = useState<Set<string>>(initialCheckedA ?? new Set())
+  const [checkedB, setCheckedB] = useState<Set<string>>(initialCheckedB ?? new Set())
 
   if (!clinicA && !clinicB) return null
 
   const hasSelection = selectedA > 0 || selectedB > 0
 
   function handleApply() {
-    onSelectPrices?.(selectedA, selectedB)
+    onSelectPrices?.(selectedA, selectedB, checkedA, checkedB)
   }
 
   return (
@@ -373,19 +351,24 @@ export default function ReceiptCompare({
         </div>
 
         <div className="flex gap-0 overflow-y-auto flex-1 min-h-0">
-          {clinicA && <ClinicReceipt clinic={clinicA} label="A" onSelectionChange={setSelectedA} />}
-          {clinicB && <ClinicReceipt clinic={clinicB} label="B" onSelectionChange={setSelectedB} />}
+          {clinicA && (
+            <ClinicReceipt clinic={clinicA} label="A" initialChecked={checkedA}
+              onSelectionChange={(total, names) => { setSelectedA(total); setCheckedA(names) }} />
+          )}
+          {clinicB && (
+            <ClinicReceipt clinic={clinicB} label="B" initialChecked={checkedB}
+              onSelectionChange={(total, names) => { setSelectedB(total); setCheckedB(names) }} />
+          )}
         </div>
 
-        {/* Apply bar */}
         {onSelectPrices && (
-          <div className={`flex-shrink-0 border-t border-gray-200 px-4 py-3 flex items-center justify-between transition-colors ${
-            hasSelection ? 'bg-gray-50' : 'bg-white'
-          }`}>
-            <div className="text-xs text-gray-500 flex gap-3">
-              {clinicA && <span>A: {selectedA > 0 ? <strong className="text-gray-900">{`$${selectedA.toLocaleString()}`}</strong> : <span className="text-gray-300">nothing selected</span>}</span>}
-              {clinicB && <span>B: {selectedB > 0 ? <strong className="text-gray-900">{`$${selectedB.toLocaleString()}`}</strong> : <span className="text-gray-300">nothing selected</span>}</span>}
-            </div>
+          <div className="flex-shrink-0 border-t border-gray-200 px-4 py-3 flex items-center justify-end gap-4">
+            {hasSelection && (
+              <span className="text-xs text-gray-500 flex gap-3">
+                {clinicA && selectedA > 0 && <span>A: <strong className="text-gray-900">{fmt(selectedA)}</strong></span>}
+                {clinicB && selectedB > 0 && <span>B: <strong className="text-gray-900">{fmt(selectedB)}</strong></span>}
+              </span>
+            )}
             <button
               onClick={handleApply}
               disabled={!hasSelection}

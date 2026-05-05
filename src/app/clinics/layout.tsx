@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Compare Korea Clinics — Face Lifting & VASER Lipo Prices',
+  title: 'Compare Seoul Plastic Surgery Clinics — Korea vs US Price Calculator',
   description:
-    'Browse and compare Seoul clinics for face lifting and VASER lipo. See real prices, operating hours, and calculate your total trip cost from any US city.',
-  alternates: { canonical: 'https://www.liponity.com/clinics' },
+    'Side-by-side comparison of Seoul plastic surgery clinics. See real prices for rhinoplasty, liposuction, face lifting, and more — then calculate your total trip cost from any US city.',
+  alternates: { canonical: 'https://www.plainkost.com/clinics' },
   openGraph: {
-    title: 'Compare Korea Clinics — Face Lifting & VASER Lipo Prices',
-    description: 'Real clinic prices in Seoul for face lifting and VASER lipo. Compare and calculate your total US-to-Korea trip cost.',
-    url: 'https://www.liponity.com/clinics',
+    title: 'Compare Seoul Plastic Surgery Clinics — Korea vs US Price Calculator',
+    description: 'Real rhinoplasty, liposuction, and face lifting prices at Seoul clinics. Compare two clinics side by side and calculate your full US-to-Korea trip budget.',
+    url: 'https://www.plainkost.com/clinics',
   },
 }
 

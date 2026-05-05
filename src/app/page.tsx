@@ -1,19 +1,32 @@
 import type { Metadata } from 'next'
 import ClinicsPage from '@/app/clinics/page'
+import { buildClinics } from '@/lib/clinicData'
+import CLINICS_JSON from '@/data/clinics.json'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Korea Face Lifting & VASER Lipo Cost Calculator — Compare Clinic Prices',
+  title: 'Korea Plastic Surgery Trip Cost Calculator — Compare Seoul Clinic Prices',
   description:
-    'Free calculator for Americans considering face lifting or VASER lipo in Korea. Compare real clinic prices, estimate flights and hotels, and see how much you save vs the US.',
-  alternates: { canonical: 'https://www.liponity.com' },
+    'Calculate the total cost of plastic surgery in Korea — surgery, flights, hotel, and daily expenses. Compare Seoul clinic prices for rhinoplasty, liposuction, face lifting, and more. See your real savings vs US prices.',
+  alternates: { canonical: 'https://www.plainkost.com' },
   openGraph: {
-    title: 'Korea Face Lifting & VASER Lipo Cost Calculator',
+    title: 'Korea Plastic Surgery Trip Cost Calculator',
     description:
-      'Compare real clinic prices in Seoul for face lifting and VASER lipo. Calculate your full trip cost and savings vs US prices.',
-    url: 'https://www.liponity.com',
+      'Compare rhinoplasty, liposuction, and face lifting prices at Seoul clinics. Calculate your full trip budget and see how much you save vs US prices.',
+    url: 'https://www.plainkost.com',
   },
 }
 
-export default function HomePage() {
-  return <ClinicsPage />
+export default async function HomePage() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let initialClinics: any[] = CLINICS_JSON
+  if (process.env.GOOGLE_SHEET_ID) {
+    try {
+      initialClinics = await buildClinics()
+    } catch {
+      // fallback to static data
+    }
+  }
+  return <ClinicsPage initialClinics={initialClinics} />
 }
