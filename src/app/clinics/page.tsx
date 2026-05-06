@@ -22,7 +22,7 @@ type Procedure = { key: string; label: string; koreaAvg: number; usAvg: number }
 type CalcResult = {
   surgery: number; isActual: boolean
   procBreakdown: { key: string; label: string; price: number; isActual: boolean }[]
-  flight: number; hotel: number; other: number; total: number; usSaving: number
+  flight: number; hotel: number; food: number; transport: number; total: number; usSaving: number
 }
 
 const procedures = PROCEDURES_DATA as Procedure[]
@@ -167,13 +167,14 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
     const multiplier = (calcData.seasonMultiplier as Record<string, number[]>)[month][1]
     const parsedFlight = Number(flightOverride.replace(/,/g, ''))
     const flight = parsedFlight > 0 ? parsedFlight : Math.round(cityData.flight * multiplier)
-    const hotel  = calcData.accommodation[accommodation].perNight * nights
-    const other  = Math.round(calcData.fixedCosts.foodPerDay * nights + calcData.fixedCosts.misc)
-    const total  = (surgery ?? 0) + flight + hotel + other
-    const usTotal  = selectedProcKeys.reduce((s, key) => s + (procedures.find(p => p.key === key)?.usAvg ?? 0), 0)
-    const usSaving = usTotal > 0 ? usTotal - (surgery ?? 0) : 0
-    const isActual = override !== null || procBreakdown.every(p => p.isActual)
-    return { surgery: surgery ?? 0, isActual, procBreakdown, flight, hotel, other, total, usSaving }
+    const hotel     = calcData.accommodation[accommodation].perNight * nights
+    const food      = Math.round(calcData.fixedCosts.foodPerDay * nights)
+    const transport = calcData.fixedCosts.misc
+    const total     = (surgery ?? 0) + flight + hotel + food + transport
+    const usTotal   = selectedProcKeys.reduce((s, key) => s + (procedures.find(p => p.key === key)?.usAvg ?? 0), 0)
+    const usSaving  = usTotal > 0 ? usTotal - (surgery ?? 0) : 0
+    const isActual  = override !== null || procBreakdown.every(p => p.isActual)
+    return { surgery: surgery ?? 0, isActual, procBreakdown, flight, hotel, food, transport, total, usSaving }
   }, [selectedProcKeys, city, month, nights, accommodation, flightOverride])
 
   const resultA = useMemo(() => compareA ? calcOne(compareA, surgeryOverrideA, customSelA) : null, [compareA, calcOne, surgeryOverrideA, customSelA])
@@ -374,9 +375,10 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
                 {compareB && <td className={`py-1.5 text-center font-medium ${surgeryOverrideB ? 'text-amber-700' : 'text-gray-700'}`}>{resultB ? fmt(resultB.surgery) : '—'}</td>}
               </tr>
               {[
-                { label: 'Flight', a: resultA?.flight, b: resultB?.flight },
-                { label: 'Hotel',  a: resultA?.hotel,  b: resultB?.hotel  },
-                { label: 'Misc',   a: resultA?.other,  b: resultB?.other  },
+                { label: 'Flight',    a: resultA?.flight,    b: resultB?.flight    },
+                { label: 'Hotel',     a: resultA?.hotel,     b: resultB?.hotel     },
+                { label: 'Food',      a: resultA?.food,      b: resultB?.food      },
+                { label: 'Transport', a: resultA?.transport, b: resultB?.transport },
               ].map(row => (
                 <tr key={row.label} className="border-b border-gray-100">
                   <td className="py-1.5 text-gray-400">{row.label}</td>

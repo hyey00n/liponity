@@ -1,4 +1,5 @@
 import { appendReport } from '@/lib/sheets'
+import { rateLimit } from '@/lib/rateLimit'
 
 const MAX = { id: 50, name: 100, procedure: 100, category: 50, note: 300 }
 
@@ -8,6 +9,11 @@ function sanitize(s: unknown, max: number): string {
 }
 
 export async function POST(req: Request) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown'
+  if (!rateLimit(ip, 10, 60_000)) {
+    return Response.json({ error: 'Too many requests' }, { status: 429 })
+  }
+
   try {
     const body = await req.json().catch(() => null)
     if (!body || typeof body !== 'object') {
@@ -27,8 +33,7 @@ export async function POST(req: Request) {
 
     await appendReport({ clinic_id, clinic_name, procedure_name, category, price_krw, note })
     return Response.json({ ok: true })
-  } catch (e) {
-    console.error('[report API]', e)
+  } catch {
     return Response.json({ error: 'Server error' }, { status: 500 })
   }
 }

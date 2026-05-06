@@ -15,54 +15,46 @@ export const metadata: Metadata = {
 const HOW_TO = [
   {
     title: 'Set your trip details',
-    desc: 'Use the bar at the top of the page to select your departure city, travel month, and length of stay. The calculator uses these to estimate your flight and hotel costs.',
+    desc: 'Select your departure city, travel month, and length of stay. Plainkost uses these to estimate your flight and hotel costs.',
   },
   {
     title: 'Filter by procedure',
-    desc: 'Use the left sidebar to filter clinics by body part (Eyes, Nose, Breast, etc.), technique (Incision, SMAS, Endoscopic...), or material (Silicone, Motiva, Autologous rib...). Only clinics that offer the selected procedure are shown.',
+    desc: 'Use the sidebar to filter clinics by body part, technique, or material. Only clinics that offer the selected procedure are shown.',
   },
   {
-    title: 'Select up to 2 clinics to compare',
-    desc: 'Click any clinic card to add it to slot A or B. The Trip Summary panel on the right updates automatically with a side-by-side cost breakdown including surgery, flight, hotel, and daily expenses.',
+    title: 'Compare up to 2 clinics',
+    desc: 'Click any clinic card to add it to slot A or B. The Trip Summary updates with a side-by-side cost breakdown including surgery, flight, and hotel.',
   },
   {
-    title: 'Open Price Comparison for itemized pricing',
-    desc: 'Click "Price Comparison" in the Trip Summary to see the full procedure price list for each clinic. Check individual procedures to build a custom quote and apply it to the trip calculator.',
+    title: 'See itemized pricing',
+    desc: 'Click "Price Comparison" in the Trip Summary to view the full procedure price list and build a custom quote.',
   },
   {
     title: 'Override with your actual flight cost',
-    desc: 'Click the "Flight" button in the header to enter the actual flight price you found on Google Flights. This replaces the estimate and gives you a more accurate total trip cost.',
+    desc: 'Click the "Flight" button to enter a real price from Google Flights for a more accurate total.',
   },
 ]
 
 const FAQS = [
   {
     q: 'Where does the price data come from?',
-    a: 'Prices are sourced from clinic websites, public disclosures required by Korean law, and user-submitted reports. Your actual quote may vary based on your case, surgeon, and any package deals.',
+    a: 'Clinic websites, public disclosures required by Korean law, and user-submitted reports. Your actual quote may vary based on your case, surgeon, and package deals.',
   },
   {
     q: 'How is the USD price calculated?',
-    a: 'Plainkost converts KRW to USD at a fixed rate of ₩1,350 = $1. Actual exchange rates fluctuate — treat this as a rough guide, not a guaranteed price.',
+    a: 'At a fixed rate of ₩1,350 = $1. Actual exchange rates fluctuate — treat it as a rough guide.',
   },
   {
     q: 'Can I contact clinics through Plainkost?',
-    a: 'No. Plainkost is a research tool only — no clinic partnerships, no bookings, no consultations. Contact each clinic directly through their official website.',
+    a: 'No — contact each clinic directly through their official website.',
   },
   {
     q: 'Why does the same procedure have a wide price range?',
-    a: 'Price ranges reflect different techniques, materials, and surgeon experience. Non-incision double eyelid surgery is significantly cheaper than incision-based, for example. Use the technique filter in the sidebar to narrow the range.',
+    a: 'Different techniques, materials, and surgeon experience all affect price. Use the technique filter to narrow the range.',
   },
   {
-    q: 'Are Korean clinic prices negotiable?',
-    a: 'Sometimes — especially for combination procedures. Clinics with published price lists typically don\'t negotiate on individual items. Ask during your consultation.',
-  },
-  {
-    q: 'Do clinics charge a consultation fee?',
-    a: 'Most Korean clinics offer free consultations, including video calls for international patients. Some charge a fee that\'s applied toward the surgery cost if you proceed. Confirm with each clinic.',
-  },
-  {
-    q: 'How do I report a price, or request a clinic to be added?',
-    a: 'Hover over any procedure in the Price Comparison modal to see "Different price? Report it." Don\'t see a clinic you\'re looking for? Use the form at the bottom of the page to request it — we\'ll look into adding it.',
+    q: "Don't see a clinic you're looking for?",
+    a: "Use the form at the bottom of the page to request it — we'll look into adding it.",
   },
 ]
 
