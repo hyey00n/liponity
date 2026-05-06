@@ -327,8 +327,8 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
                               <div>
                                 {compareB && <p className="text-xs font-semibold text-gray-500 mb-1">A</p>}
                                 <div className="space-y-0.5">
-                                  {itemsA.map(item => (
-                                    <label key={item.name} className="flex items-center gap-1.5 cursor-pointer">
+                                  {itemsA.map((item, idx) => (
+                                    <label key={`a-${idx}-${item.name}`} className="flex items-center gap-1.5 cursor-pointer">
                                       <input type="checkbox"
                                         checked={customSelA.has(item.name)}
                                         onChange={() => setCustomSelA(prev => { const n = new Set(prev); n.has(item.name) ? n.delete(item.name) : n.add(item.name); return n })}
@@ -345,8 +345,8 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
                               <div className={compareA && itemsA.length > 0 ? 'border-t border-gray-200 pt-2' : ''}>
                                 {compareA && <p className="text-xs font-semibold text-gray-500 mb-1">B</p>}
                                 <div className="space-y-0.5">
-                                  {itemsB.map(item => (
-                                    <label key={item.name} className="flex items-center gap-1.5 cursor-pointer">
+                                  {itemsB.map((item, idx) => (
+                                    <label key={`b-${idx}-${item.name}`} className="flex items-center gap-1.5 cursor-pointer">
                                       <input type="checkbox"
                                         checked={customSelB.has(item.name)}
                                         onChange={() => setCustomSelB(prev => { const n = new Set(prev); n.has(item.name) ? n.delete(item.name) : n.add(item.name); return n })}
@@ -559,7 +559,7 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
                 const slot = getSlot(clinic.id)
                 const priceRange = getDisplayRange(clinic, activeCategories)
                 return (
-                  <li key={clinic.id}
+                  <li key={clinic.id || String(i)}
                     className={`border transition-all ${
                       slot ? 'border-gray-900'
                       : hoveredId === clinic.id ? 'border-gray-300'

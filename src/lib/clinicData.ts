@@ -47,7 +47,7 @@ export async function buildClinics() {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return clinicsRaw.map((c: any) => {
+  return clinicsRaw.filter((c: any) => c.clinic_id && c.clinic_name).map((c: any) => {
     const fromProcedures = c.available_procedures
       ? c.available_procedures.split(',').map((s: string) => s.trim()).filter(Boolean)
       : []
