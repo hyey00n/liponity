@@ -14,8 +14,14 @@ const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 function toRows(values: string[][] | null | undefined) {
   const [header, ...rows] = values || [];
   if (!header) return [];
+  const seen = new Set<string>()
+  const cols: { key: string; idx: number }[] = []
+  header.forEach((k: string, i: number) => {
+    const key = String(k ?? '').trim()
+    if (key && !seen.has(key)) { seen.add(key); cols.push({ key, idx: i }) }
+  })
   return rows.map((row: string[]) =>
-    Object.fromEntries(header.map((key: string, i: number) => [key, row[i] ?? '']))
+    Object.fromEntries(cols.map(({ key, idx }) => [key, row[idx] ?? '']))
   );
 }
 
@@ -31,6 +37,7 @@ export async function getPrices() {
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
     range: 'price!A:Z',
+    valueRenderOption: 'UNFORMATTED_VALUE',
   });
   return toRows(res.data.values as string[][]);
 }

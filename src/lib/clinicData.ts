@@ -21,6 +21,8 @@ const DAY_MAP: Record<string, string> = {
   '목': 'Thu', '금': 'Fri', '토': 'Sat', '일': 'Sun',
 }
 
+const cleanNum = (v: unknown) => Number(String(v ?? '').replace(/[₩,\s]/g, '')) || 0
+
 export async function buildClinics() {
   const [clinicsRaw, pricesRaw, hoursRaw, userReports] = await Promise.all([
     getClinics(), getPrices(), getHours(), getUserReports(),
@@ -28,20 +30,24 @@ export async function buildClinics() {
 
   const pricesByClinic = new Map<string, typeof pricesRaw>()
   for (const p of pricesRaw) {
-    if (!pricesByClinic.has(p.clinic_id)) pricesByClinic.set(p.clinic_id, [])
-    pricesByClinic.get(p.clinic_id)!.push(p)
+    const pid = String(p.clinic_id ?? '').trim()
+    if (!pid) continue
+    if (!pricesByClinic.has(pid)) pricesByClinic.set(pid, [])
+    pricesByClinic.get(pid)!.push(p)
   }
 
   const hoursByClinic = new Map<string, typeof hoursRaw>()
   for (const h of hoursRaw) {
-    if (!hoursByClinic.has(h.clinic_id)) hoursByClinic.set(h.clinic_id, [])
-    hoursByClinic.get(h.clinic_id)!.push(h)
+    const hid = String(h.clinic_id ?? '').trim()
+    if (!hid) continue
+    if (!hoursByClinic.has(hid)) hoursByClinic.set(hid, [])
+    hoursByClinic.get(hid)!.push(h)
   }
 
   type ReportRow = typeof userReports[0]
   const reportsByKey = new Map<string, ReportRow[]>()
   for (const r of userReports) {
-    const key = `${r.clinic_id}::${r.procedure_name}`
+    const key = `${String(r.clinic_id ?? '').trim()}::${String(r.procedure_name ?? '').trim()}`
     if (!reportsByKey.has(key)) reportsByKey.set(key, [])
     reportsByKey.get(key)!.push(r)
   }
@@ -54,25 +60,24 @@ export async function buildClinics() {
     const specialties = [...new Set([...fromProcedures, ...(c.category ? [c.category.trim()] : [])])]
 
     const hours_detail: Record<string, { open: string | null; close: string | null; closed: boolean }> = {}
-    for (const h of hoursByClinic.get(c.clinic_id) ?? []) {
+    for (const h of hoursByClinic.get(String(c.clinic_id ?? '').trim()) ?? []) {
       const eng = DAY_MAP[h.day_of_week] ?? h.day_of_week
       hours_detail[eng] = { open: h.open_time || null, close: h.close_time || null, closed: h.is_closed === 'Y' }
     }
 
-    const clinicPriceRows = pricesByClinic.get(c.clinic_id) ?? []
+    const clinicPriceRows = pricesByClinic.get(String(c.clinic_id ?? '').trim()) ?? []
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const priceItems = clinicPriceRows.map((p: any) => {
-      const key = `${c.clinic_id}::${p.procedure_name}`
+      const key = `${String(c.clinic_id ?? '').trim()}::${String(p.procedure_name ?? '').trim()}`
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const reports = (reportsByKey.get(key) ?? []).sort((a: any, b: any) =>
         new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
       )
       const report = reports[0]
-      const rawKrw = report
-        ? Number(String(report.price_krw).replace(/,/g, ''))
-        : Number(String(p.min_price).replace(/,/g, ''))
-      const rawMaxKrw = report ? 0 : Number(String(p.max_price ?? '').replace(/,/g, '')) || 0
+      const rawKrw = report ? cleanNum(report.price_krw) : cleanNum(p.min_price)
+      const rawMaxKrw = report ? 0 : cleanNum(p.max_price)
       const vatRaw = (p.vat_included ?? '').trim()
       return {
         category: p.category,
@@ -86,7 +91,7 @@ export async function buildClinics() {
         reportCount: reports.length,
         lastReported: report?.timestamp || null,
       }
-    })
+    }).filter((item: any) => item.krw > 0 || item.reportCount > 0)
 
     const pricing: Record<string, { price: number; maxPrice: number; isActual: boolean }> = {}
     AVG_PRICES.forEach(proc => {
@@ -94,9 +99,9 @@ export async function buildClinics() {
       const found = clinicPriceRows.filter((p: any) => CAT_TO_PROC_KEY[p.category] === proc.key)
       if (found.length > 0) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const mins = found.map((p: any) => Number(String(p.min_price).replace(/,/g, ''))).filter((n: number) => !isNaN(n) && n > 0)
+        const mins = found.map((p: any) => cleanNum(p.min_price)).filter((n: number) => n > 0)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const maxes = found.map((p: any) => Number(String(p.max_price ?? '').replace(/,/g, ''))).filter((n: number) => !isNaN(n) && n > 0)
+        const maxes = found.map((p: any) => cleanNum(p.max_price)).filter((n: number) => n > 0)
         if (mins.length > 0) {
           const minPrice = Math.min(...mins)
           const maxPrice = maxes.length > 0 ? Math.max(...maxes) : 0

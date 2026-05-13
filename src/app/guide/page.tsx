@@ -109,9 +109,6 @@ export default function GuidePage() {
         </div>
       </section>
 
-      <p className="text-xs text-gray-400 mt-10 pt-6 border-t border-gray-100">
-        Prices are estimates only. Confirm all quotes directly with the clinic. This is not medical advice.
-      </p>
     </div>
   )
 }
