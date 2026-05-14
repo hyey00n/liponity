@@ -30,14 +30,16 @@ function MapController({ a, b }: { a: Hospital; b: Hospital }) {
 export default function CompareMap({
   hospitalA,
   hospitalB,
+  className = 'w-full h-[600px] relative',
 }: {
   hospitalA: Hospital
   hospitalB: Hospital
+  className?: string
 }) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ''
 
   return (
-    <div className="w-full h-[600px] relative">
+    <div className={className}>
       <APIProvider apiKey={apiKey} language="en" region="KR">
         <Map
           defaultCenter={{ lat: 37.5218, lng: 127.0226 }}

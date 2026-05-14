@@ -122,6 +122,8 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
   const [customSelB, setCustomSelB] = useState<Set<string>>(new Set())
   const [expandedProcKey, setExpandedProcKey] = useState<string | null>(null)
 
+  const [summaryTab, setSummaryTab] = useState<'cost' | 'map'>('cost')
+
   const [suggestName, setSuggestName] = useState('')
   const [suggestSubmitting, setSuggestSubmitting] = useState(false)
   const [suggestDone, setSuggestDone] = useState(false)
@@ -232,16 +234,19 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
   function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
     const isCollapsed = collapsed.has(id)
     return (
-      <div className="border-b border-gray-100">
-        <button
-          onClick={() => toggleCollapse(id)}
-          className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
-        >
-          {title}
-          <span className="text-gray-400 text-xs">{isCollapsed ? '∨' : '∧'}</span>
-        </button>
+      <section className="border-b border-gray-100">
+        <h3>
+          <button
+            onClick={() => toggleCollapse(id)}
+            aria-expanded={!isCollapsed}
+            className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
+          >
+            {title}
+            <span className="text-gray-400 text-xs" aria-hidden="true">{isCollapsed ? '∨' : '∧'}</span>
+          </button>
+        </h3>
         {!isCollapsed && <div className="px-4 pb-4">{children}</div>}
-      </div>
+      </section>
     )
   }
 
@@ -420,17 +425,28 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
     </div>
   )
 
-  if (loading) return <div className="flex items-center justify-center h-screen"><p className="text-sm text-gray-400">Loading clinics...</p></div>
-  if (error)   return <div className="flex items-center justify-center h-screen"><p className="text-sm text-red-400">{error}</p></div>
+  if (loading) return <div role="status" className="flex items-center justify-center h-screen"><p className="text-sm text-gray-400">Loading clinics...</p></div>
+  if (error)   return <div role="alert" className="flex items-center justify-center h-screen"><p className="text-sm text-red-400">{error}</p></div>
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 py-6 pb-20">
+    <div className="h-[calc(100vh-4rem)] flex flex-col overflow-hidden">
 
+      {/* ── Start Here 안내 바 ─────────────────────────────── */}
+      <div className="hidden lg:flex flex-shrink-0 justify-center items-center gap-2 px-6 py-2 border-b border-gray-100 bg-gray-50 text-xs text-gray-400">
+        <span className="font-medium text-gray-600">Start here</span>
+        <span>①  Set departure city &amp; dates in the header above</span>
+        <span className="text-gray-300">·</span>
+        <span>②  Filter by procedure</span>
+        <span className="text-gray-300">·</span>
+        <span>③  Click two clinics to compare costs</span>
+      </div>
+
+      <div className="flex-1 min-h-0 w-full max-w-[1400px] mx-auto px-4 py-4">
       {/* ── Main 3-column layout ──────────────────────────── */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 h-full">
 
         {/* Col 1: Filter sidebar */}
-        <aside className="hidden lg:block w-[220px] flex-shrink-0 border border-gray-200 self-start sticky top-20">
+        <aside className="hidden lg:flex flex-col w-[220px] flex-shrink-0 border border-gray-200 overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
             <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">Filter</span>
@@ -506,7 +522,7 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
         </aside>
 
         {/* Col 2: Clinic list */}
-        <section className="flex-1 min-w-0">
+        <section className="flex-1 min-w-0 flex flex-col overflow-hidden">
           <div className="flex items-center justify-between mb-3">
             <p className="text-xs text-gray-400">{filtered.length} clinics</p>
             <div className="flex gap-2">
@@ -524,35 +540,43 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
 
           {/* Active filter chips row */}
           {activeFilterCount > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-3">
+            <ul className="flex flex-wrap gap-1.5 mb-3" aria-label="Active filters">
               {[...activeCategories].map(cat => (
-                <button key={cat} onClick={() => toggleSet(activeCategories, cat, setActiveCategories)}
-                  className="text-xs bg-gray-900 text-white px-2.5 py-1 flex items-center gap-1.5 hover:bg-gray-700">
-                  {cat} <span className="opacity-60">×</span>
-                </button>
+                <li key={cat}>
+                  <button onClick={() => toggleSet(activeCategories, cat, setActiveCategories)}
+                    className="text-xs bg-gray-900 text-white px-2.5 py-1 flex items-center gap-1.5 hover:bg-gray-700">
+                    {cat} <span aria-hidden="true" className="opacity-60">×</span>
+                  </button>
+                </li>
               ))}
               {[...activeMethodTags].map(tag => (
-                <button key={tag} onClick={() => toggleSet(activeMethodTags, tag, setActiveMethodTags)}
-                  className="text-xs bg-gray-700 text-white px-2.5 py-1 flex items-center gap-1.5 hover:bg-gray-600">
-                  {tag} <span className="opacity-60">×</span>
-                </button>
+                <li key={tag}>
+                  <button onClick={() => toggleSet(activeMethodTags, tag, setActiveMethodTags)}
+                    className="text-xs bg-gray-700 text-white px-2.5 py-1 flex items-center gap-1.5 hover:bg-gray-600">
+                    {tag} <span aria-hidden="true" className="opacity-60">×</span>
+                  </button>
+                </li>
               ))}
               {[...activeMaterialTags].map(tag => (
-                <button key={tag} onClick={() => toggleSet(activeMaterialTags, tag, setActiveMaterialTags)}
-                  className="text-xs bg-gray-500 text-white px-2.5 py-1 flex items-center gap-1.5 hover:bg-gray-400">
-                  {tag} <span className="opacity-60">×</span>
-                </button>
+                <li key={tag}>
+                  <button onClick={() => toggleSet(activeMaterialTags, tag, setActiveMaterialTags)}
+                    className="text-xs bg-gray-500 text-white px-2.5 py-1 flex items-center gap-1.5 hover:bg-gray-400">
+                    {tag} <span aria-hidden="true" className="opacity-60">×</span>
+                  </button>
+                </li>
               ))}
               {priceOnly && (
-                <button onClick={() => setPriceOnly(false)}
-                  className="text-xs border border-gray-400 text-gray-600 px-2.5 py-1 flex items-center gap-1.5 hover:border-gray-700">
-                  With pricing only <span className="opacity-60">×</span>
-                </button>
+                <li>
+                  <button onClick={() => setPriceOnly(false)}
+                    className="text-xs border border-gray-400 text-gray-600 px-2.5 py-1 flex items-center gap-1.5 hover:border-gray-700">
+                    With pricing only <span aria-hidden="true" className="opacity-60">×</span>
+                  </button>
+                </li>
               )}
-            </div>
+            </ul>
           )}
 
-          <div className="overflow-y-auto lg:max-h-[calc(100vh-12rem)]">
+          <div className="flex-1 overflow-y-auto">
             {filtered.length === 0 && (
               <p className="text-xs text-gray-400 text-center py-12">No clinics found</p>
             )}
@@ -561,47 +585,42 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
                 const slot = getSlot(clinic.id)
                 const priceRange = getDisplayRange(clinic, activeCategories)
                 return (
-                  <li key={clinic.id || String(i)}
+                  <li key={clinic.id || String(i)}>
+                  <article
                     className={`border transition-all ${
                       slot ? 'border-gray-900'
                       : hoveredId === clinic.id ? 'border-gray-300'
                       : 'border-gray-100'
                     }`}
                   >
-                    {/* Clickable card body — selects A/B */}
                     <div
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={!!slot}
                       className={`p-3 cursor-pointer transition-colors ${slot ? 'bg-gray-50' : 'hover:bg-gray-50'}`}
                       onClick={() => selectClinic(clinic)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectClinic(clinic) } }}
                       onMouseEnter={() => setHoveredId(clinic.id)}
                       onMouseLeave={() => setHoveredId(null)}
                     >
                       <div className="flex justify-between items-start gap-2">
                         <div className="flex items-start gap-2 min-w-0">
-                          <span className="text-xs text-gray-300 font-mono flex-shrink-0 mt-0.5">
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
                               <h3 className="text-sm font-medium text-gray-900 truncate">{clinic.name}</h3>
-                              {slot && <mark className="text-xs bg-gray-900 text-white px-1.5 py-0.5 not-italic flex-shrink-0">{slot}</mark>}
+                              {slot && <span className="text-xs bg-gray-900 text-white px-1.5 py-0.5 flex-shrink-0">{slot}</span>}
                             </div>
                             <p className="text-xs text-gray-400 mt-0.5">{clinic.district}</p>
                           </div>
                         </div>
                         <div className="flex-shrink-0 text-right">
                           {priceRange ? (
-                            <>
-                              <p className="text-xs text-gray-700 font-medium">
-                                ${Math.round(priceRange.min / 1350).toLocaleString()}
-                                {priceRange.max > priceRange.min && (
-                                  <span className="text-gray-400"> ~ ${Math.round(priceRange.max / 1350).toLocaleString()}</span>
-                                )}
-                              </p>
-                              <p className="text-xs text-gray-400">
-                                ₩{priceRange.min.toLocaleString()}
-                                {priceRange.max > priceRange.min && ` ~ ₩${priceRange.max.toLocaleString()}`}
-                              </p>
-                            </>
+                            <p className="text-sm font-semibold text-gray-900">
+                              ${Math.round(priceRange.min / 1350).toLocaleString()}
+                              {priceRange.max > priceRange.min && (
+                                <span className="text-gray-400 font-normal text-xs"> ~ ${Math.round(priceRange.max / 1350).toLocaleString()}</span>
+                              )}
+                            </p>
                           ) : (
                             <span className="text-xs text-gray-300">—</span>
                           )}
@@ -621,19 +640,58 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
                       )}
                     </div>
 
+                  </article>
                   </li>
                 )
               })}
             </ul>
+
+            {/* Suggest form */}
+            <div className="border-t border-gray-100 py-3 mt-2 px-1">
+              {suggestDone ? (
+                <p className="text-xs text-gray-500">Thank you for your suggestion ✓</p>
+              ) : (
+                <form onSubmit={handleSuggest} className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs text-gray-400 flex-shrink-0">Can't find the clinic you're looking for?</span>
+                  <input type="text" placeholder="Clinic name" value={suggestName}
+                    onChange={e => setSuggestName(e.target.value)}
+                    className="text-xs border border-gray-200 px-2 py-1.5 w-48 focus:outline-none focus:border-gray-400" />
+                  <button type="submit" disabled={suggestSubmitting || !suggestName.trim()}
+                    className="text-xs px-3 py-1.5 border border-gray-200 text-gray-500 hover:border-gray-900 hover:text-gray-900 disabled:opacity-40 transition-colors">
+                    {suggestSubmitting ? '...' : 'Suggest →'}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </section>
 
         {/* Col 3: Trip Summary */}
-        <aside className="hidden lg:flex flex-col w-[260px] flex-shrink-0 sticky top-20 self-start border border-gray-200 max-h-[calc(100vh-6rem)]">
-          <header className="bg-gray-900 text-white px-4 py-3 flex-shrink-0">
+        <aside className="hidden lg:flex flex-col w-[260px] flex-shrink-0 border border-gray-200 overflow-hidden">
+          <header className="bg-gray-900 text-white px-4 py-3 flex-shrink-0 flex items-center justify-between">
             <h2 className="text-xs font-semibold uppercase tracking-wide">Trip Summary</h2>
+            <div className="flex gap-0.5">
+              <button
+                onClick={() => setSummaryTab('cost')}
+                className={`text-xs px-2.5 py-1 transition-colors ${summaryTab === 'cost' ? 'bg-white text-gray-900' : 'text-gray-400 hover:text-white'}`}
+              >Cost</button>
+              <button
+                onClick={() => setSummaryTab('map')}
+                className={`text-xs px-2.5 py-1 transition-colors ${summaryTab === 'map' ? 'bg-white text-gray-900' : 'text-gray-400 hover:text-white'}`}
+              >Map</button>
+            </div>
           </header>
-          <div className="overflow-y-auto flex-1">{tripSummaryContent}</div>
+          {summaryTab === 'cost' ? (
+            <div className="overflow-y-auto flex-1">{tripSummaryContent}</div>
+          ) : (
+            <div className="flex-1 overflow-hidden">
+              <CompareMap
+                hospitalA={compareA?.lat ? { name: compareA.name, lat: compareA.lat, lng: compareA.lng! } : null}
+                hospitalB={compareB?.lat ? { name: compareB.name, lat: compareB.lat, lng: compareB.lng! } : null}
+                className="w-full h-full"
+              />
+            </div>
+          )}
           {hasAny && hasPriceData && (
             <div className="flex-shrink-0 border-t border-gray-200 p-3">
               <button
@@ -646,31 +704,6 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
           )}
         </aside>
       </div>
-
-      {/* Map */}
-      <div className="hidden lg:block mt-4">
-        <CompareMap
-          hospitalA={compareA?.lat ? { name: compareA.name, lat: compareA.lat, lng: compareA.lng! } : null}
-          hospitalB={compareB?.lat ? { name: compareB.name, lat: compareB.lat, lng: compareB.lng! } : null}
-        />
-      </div>
-
-      {/* Suggest */}
-      <div className="border-t border-gray-100 py-3 mt-4">
-        {suggestDone ? (
-          <p className="text-xs text-gray-500">Thank you for your suggestion ✓</p>
-        ) : (
-          <form onSubmit={handleSuggest} className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-gray-400 flex-shrink-0">Can't find the clinic you're looking for?</span>
-            <input type="text" placeholder="Clinic name" value={suggestName}
-              onChange={e => setSuggestName(e.target.value)}
-              className="text-xs border border-gray-200 px-2 py-1.5 w-48 focus:outline-none focus:border-gray-400" />
-            <button type="submit" disabled={suggestSubmitting || !suggestName.trim()}
-              className="text-xs px-3 py-1.5 border border-gray-200 text-gray-500 hover:border-gray-900 hover:text-gray-900 disabled:opacity-40 transition-colors">
-              {suggestSubmitting ? '...' : 'Suggest →'}
-            </button>
-          </form>
-        )}
       </div>
 
       {/* Floating — mobile */}
@@ -686,7 +719,6 @@ export default function ClinicsPage({ initialClinics = [] }: { initialClinics?: 
           Trip Summary ↑
         </button>
       </div>
-
 
       {showReceipt && (
         <ReceiptCompare clinicA={compareA} clinicB={compareB}

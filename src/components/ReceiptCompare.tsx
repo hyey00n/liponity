@@ -52,16 +52,14 @@ export function ClinicReceipt({
   const [emptyDone, setEmptyDone] = useState(false)
 
   function toggleCheck(item: PriceItem) {
-    setCheckedItems(prev => {
-      const next = new Set(prev)
-      if (next.has(item.name)) next.delete(item.name)
-      else next.add(item.name)
-      const total = clinic.priceItems
-        .filter(i => next.has(i.name))
-        .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
-      onSelectionChange(total, next)
-      return next
-    })
+    const next = new Set(checkedItems)
+    if (next.has(item.name)) next.delete(item.name)
+    else next.add(item.name)
+    const total = clinic.priceItems
+      .filter(i => next.has(i.name))
+      .reduce((sum, i) => sum + (i.usd ?? (i.krw > 0 ? Math.round(i.krw / 1350) : 0)), 0)
+    setCheckedItems(next)
+    onSelectionChange(total, next)
   }
 
   async function handleEmptySubmit() {
@@ -136,19 +134,18 @@ export function ClinicReceipt({
   }
 
   return (
-    <div className={inline ? 'flex flex-col h-full' : 'flex-1 border border-gray-200 min-w-0 flex flex-col'}>
-      {/* 헤더 */}
+    <article className={inline ? 'flex flex-col h-full' : 'flex-1 border border-gray-200 min-w-0 flex flex-col'}>
       {!inline && label && (
-        <div className={`px-4 py-3 border-b border-gray-200 ${label === 'A' ? 'bg-gray-900 text-white' : 'bg-gray-500 text-white'}`}>
+        <header className={`px-4 py-3 border-b border-gray-200 ${label === 'A' ? 'bg-gray-900 text-white' : 'bg-gray-500 text-white'}`}>
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold border border-white px-1.5 py-0.5">{label}</span>
             <span className="text-sm font-medium truncate">{clinic.name}</span>
           </div>
-        </div>
+        </header>
       )}
 
       {/* 카테고리 필터 */}
-      <div className="flex gap-1.5 p-3 border-b border-gray-100 overflow-x-auto flex-shrink-0">
+      <div role="group" aria-label="Filter by category" className="flex gap-1.5 p-3 border-b border-gray-100 overflow-x-auto flex-shrink-0">
         {categories.map(cat => (
           <button key={cat} onClick={() => setActiveCategory(cat)}
             className={`flex-shrink-0 text-xs px-2.5 py-1 border transition-colors ${
@@ -162,14 +159,14 @@ export function ClinicReceipt({
       </div>
 
       {/* 항목 리스트 */}
-      <div className="divide-y divide-gray-50 flex-1 overflow-y-auto">
+      <ul className="divide-y divide-gray-50 flex-1 overflow-y-auto">
         {items.length === 0 && (
-          <div className="px-4 py-6">
+          <li className="px-4 py-6">
             <p className="text-xs text-gray-400 mb-4">No price data available for this clinic.<br />Know the actual prices? Help others by reporting them.</p>
             {emptyDone ? (
               <p className="text-xs text-blue-600 font-medium">Reported ✓ Thank you!</p>
             ) : (
-              <div className="space-y-2">
+              <form onSubmit={e => { e.preventDefault(); handleEmptySubmit() }} className="space-y-2">
                 <input
                   type="text"
                   placeholder="Procedure name"
@@ -193,18 +190,18 @@ export function ClinicReceipt({
                   className="text-xs border border-gray-200 px-2 py-1.5 w-full focus:outline-none focus:border-gray-400"
                 />
                 <button
-                  onClick={handleEmptySubmit}
+                  type="submit"
                   disabled={emptySubmitting || !emptyProcedure.trim() || !emptyPrice}
                   className="w-full text-xs py-1.5 bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
                 >
                   {emptySubmitting ? '...' : 'Submit'}
                 </button>
-              </div>
+              </form>
             )}
-          </div>
+          </li>
         )}
         {items.map((item, i) => (
-          <div key={i} className="px-4 py-3 hover:bg-gray-50 group">
+          <li key={i} className="px-4 py-3 hover:bg-gray-50 group">
             <div className="flex justify-between items-start gap-2">
               {/* 체크박스 */}
               <button
@@ -255,7 +252,7 @@ export function ClinicReceipt({
             {!submitted.has(item.name) && (
               <div className="mt-2 ml-6">
                 {reportingItem === item.name ? (
-                  <div className="flex gap-1.5 items-center flex-wrap opacity-100">
+                  <form onSubmit={e => { e.preventDefault(); handleSubmit(item) }} className="flex gap-1.5 items-center flex-wrap">
                     <input
                       type="text"
                       inputMode="numeric"
@@ -273,14 +270,14 @@ export function ClinicReceipt({
                       className="text-xs border border-gray-300 px-2 py-1 flex-1 min-w-0 focus:outline-none focus:border-gray-600"
                     />
                     <button
-                      onClick={() => handleSubmit(item)}
+                      type="submit"
                       disabled={submitting || !priceInput}
                       className="text-xs px-2.5 py-1 bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
                     >
                       {submitting ? '...' : 'Submit'}
                     </button>
-                    <button onClick={cancelReport} className="text-xs text-gray-400 hover:text-gray-700">✕</button>
-                  </div>
+                    <button type="button" onClick={cancelReport} className="text-xs text-gray-400 hover:text-gray-700">✕</button>
+                  </form>
                 ) : (
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
@@ -293,14 +290,14 @@ export function ClinicReceipt({
                 )}
               </div>
             )}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <p className="text-xs text-gray-400 px-4 py-2 border-t border-gray-100 flex-shrink-0">
         Prices are estimates and may differ from actual charges.
       </p>
-    </div>
+    </article>
   )
 }
 
@@ -340,11 +337,11 @@ export default function ReceiptCompare({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 flex items-end md:items-center justify-center p-0 md:p-6">
+    <div role="dialog" aria-modal="true" aria-labelledby="price-compare-title" className="fixed inset-0 z-50 bg-black/40 flex items-end md:items-center justify-center p-0 md:p-6">
       <div className="bg-white w-full md:max-w-4xl md:rounded-none max-h-[90vh] flex flex-col">
 
         <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 flex-shrink-0">
-          <p className="text-sm font-semibold text-gray-900">Price Comparison</p>
+          <h2 id="price-compare-title" className="text-sm font-semibold text-gray-900">Price Comparison</h2>
           <button onClick={onClose} className="text-xs text-gray-400 hover:text-gray-900 px-2 py-1 border border-gray-200">
             Close ✕
           </button>
