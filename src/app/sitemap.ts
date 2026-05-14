@@ -1,54 +1,19 @@
 import { MetadataRoute } from 'next'
 
+export const revalidate = 3600
+
+const BASE = 'https://www.plainkost.com'
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    {
-      url: 'https://www.plainkost.com',
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    {
-      url: 'https://www.plainkost.com/guide',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.plainkost.com/guide/eyes',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://www.plainkost.com/guide/nose',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://www.plainkost.com/guide/liposuction',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://www.plainkost.com/guide/face-lifting',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://www.plainkost.com/about',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.4,
-    },
-    {
-      url: 'https://www.plainkost.com/privacy-policy',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
+    { url: BASE,                         lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
+    { url: `${BASE}/clinics`,            lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
+    { url: `${BASE}/guide`,              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
+    { url: `${BASE}/guide/nose`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/guide/eyes`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/guide/liposuction`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/guide/face-lifting`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/about`,              lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${BASE}/privacy-policy`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   ]
 }
